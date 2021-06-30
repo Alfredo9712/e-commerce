@@ -10,6 +10,12 @@ router.get("/pants", async (req, res) => {
   res.json(pants).status(200);
 });
 
+router.get("/pants/:id", async (req, res) => {
+  const _id = req.params.id;
+  const product = await PantProduct.findById({ _id });
+  res.json(product).status(200);
+});
+
 //* POST REQUEST
 //* PRIVATE
 router.post("/pants", (req, res) => {
