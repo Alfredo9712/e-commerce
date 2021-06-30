@@ -9,6 +9,12 @@ router.get("/shirts", async (req, res) => {
   res.json(products).status(200);
 });
 
+router.get("/shirts/:id", async (req, res) => {
+  const _id = req.params.id;
+  const product = await ShirtProduct.findById({ _id });
+  res.json(product).status(200);
+});
+
 router.post("/shirts", (req, res) => {
   const { category, product, image, sizes } = req.body;
   const newProduct = new ShirtProduct({
