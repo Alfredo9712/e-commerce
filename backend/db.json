@@ -1,7 +1,7 @@
 {
   "shirtProducts": [
     {
-      "category": "shirt",
+      "category": "shirts",
       "product": "black t-shirt",
       "image": "/images/black-t-shirt.jpeg",
       "sizes": [
@@ -10,7 +10,7 @@
       ]
     },
     {
-      "category": "shirt",
+      "category": "shirts",
       "product": "white t-shirt",
       "image": "/images/white-t-shirt.jpg",
       "sizes": [
