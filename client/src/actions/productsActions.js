@@ -1,5 +1,3 @@
-
-import { GET_PRODUCTS } from './types';
 import axios from 'axios';
 export const getProducts = () => async (dispatch) => {
   try {
@@ -23,4 +21,14 @@ export const getShirts = () => async (dispatch) => {
       payload: data,
     });
   } catch (err) {}
+};
+
+export const filterProducts = (search) => async (dispatch) => {
+  const res = await axios.get('http://localhost:5000/api/all-products');
+  const data = [...res.data];
+  const filteredProduct = data.filter((product) => product.category === search);
+  dispatch({
+    type: 'FILTER_PRODUCTS',
+    payload: filteredProduct,
+  });
 };
