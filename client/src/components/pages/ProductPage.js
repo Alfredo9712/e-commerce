@@ -15,6 +15,8 @@ import { addToCart } from '../../actions/cartActions';
 const ProductPage = () => {
   const [productItem, setProductItem] = useState({});
   const [sizeIndex, setSizeIndex] = useState(0);
+  const [selectedQuantity, setSelectedQuantity] = useState(0);
+  const [selectedSize, setSelectedSize] = useState('');
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -29,20 +31,13 @@ const ProductPage = () => {
     setProductItem(data);
     setLoading(false);
   };
-  const changeIndexHandler = (size) => {
-    // if ((sizeIndex === 1 || sizeIndex === 0) && size === 'large') {
-    //   setSizeIndex(sizeIndex + 1);
-    // }
-    // if (sizeIndex === 0 && size === 'medium') {
-    //   setSizeIndex(sizeIndex + 1);
-    // }
-    // if (sizeIndex === 1 && size === 'small') {
-    //   setSizeIndex(sizeIndex - 1);
-    // }
+  const changeIndexHandler = (size, index) => {
+    setSizeIndex(index);
+    setSelectedSize(size);
   };
   const addToCartHandler = (productItem) => {
-    const itemToCart = { product, image };
-    dispatch(addToCart(productItem));
+    const itemToCart = { product, image, selectedQuantity, selectedSize, id };
+    dispatch(addToCart(itemToCart));
   };
   const updateCartHandler = (quantity, size) => {};
   useEffect(() => {
@@ -68,7 +63,7 @@ const ProductPage = () => {
                 size.quantity > 0 ? (
                   <>
                     <Button
-                      // onClick={() => changeIndexHandler(size.size)}
+                      onClick={() => changeIndexHandler(size.size, index)}
                       id={`tbg-btn-${index + 1}`}
                       value={index + 1}
                     >
@@ -84,12 +79,18 @@ const ProductPage = () => {
             <>
               <Dropdown>
                 <Dropdown.Toggle variant='success' id='dropdown-basic'>
-                  Quantity
+                  Quantity: {selectedSize}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
                   {[...Array(sizes[sizeIndex].quantity)].map((x, i) => (
-                    <Dropdown.Item>{i + 1}</Dropdown.Item>
+                    <Dropdown.Item
+                      onClick={(e) =>
+                        setSelectedQuantity(Number(e.target.textContent))
+                      }
+                    >
+                      {i + 1}
+                    </Dropdown.Item>
                   ))}
                 </Dropdown.Menu>
               </Dropdown>
