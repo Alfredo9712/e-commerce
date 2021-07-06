@@ -1,9 +1,3 @@
-import {
-  GET_PRODUCTS,
-  ADD_PRODUCT,
-  UPDATE_PRODUCT,
-  DELETE_PRODUCT,
-} from '../actions/types';
 const initialState = {
   data: [],
 };
@@ -15,6 +9,11 @@ export function productReducer(state = initialState, action) {
         data: action.payload,
       };
     case 'GET_SHIRTS':
+      return {
+        ...state,
+        data: action.payload,
+      };
+    case 'FILTER_PRODUCTS':
       return {
         ...state,
         data: action.payload,

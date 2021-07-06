@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { LinkContainer } from 'react-router-bootstrap';
+import { Link, useHistory } from 'react-router-dom';
 
 const NavbarComponent = () => {
+  const [search, setSearch] = useState('');
+  let history = useHistory();
+  // const handleClick = (e) => {
+  //   history.push(`/search/${search}`);
+  // };
+
   return (
     <div>
       <Navbar bg='primary' variant='dark'>
-        <Navbar.Brand href='/'>E-Commerce</Navbar.Brand>
+        <LinkContainer to='/'>
+          <Navbar.Brand>E-Commerce</Navbar.Brand>
+        </LinkContainer>
         <Nav className='mr-auto'>
-          <Nav.Link href='#shirts'>Shirts</Nav.Link>
-          <Nav.Link href='#pants'>Pants</Nav.Link>
-          <Nav.Link href='/about'>About</Nav.Link>
-          <Form inline>
-            <FormControl type='text' placeholder='Search' className='mr-sm-2' />
+          <LinkContainer to='/about'>
+            <Nav.Link>About</Nav.Link>
+          </LinkContainer>
+
+          <FormControl
+            type='search'
+            placeholder='Search'
+            className='mr-sm-2'
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <Link to={`/search/${search}`}>
             <Button variant='outline-light'>Search</Button>
-          </Form>
+          </Link>
         </Nav>
         <Nav>
           <Nav.Link href='/login'>Login</Nav.Link>

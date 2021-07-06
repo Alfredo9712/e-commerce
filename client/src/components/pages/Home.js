@@ -1,11 +1,10 @@
 import React, { useEffect } from 'react';
-import { Card, Button, Row, Col } from 'react-bootstrap';
+import { Card, Row, Col } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
-import { getProducts, getShirts } from '../../actions/getProducts';
+import { getProducts, getShirts } from '../../actions/productsActions';
 import { Link } from 'react-router-dom';
 const Home = () => {
   const dispatch = useDispatch();
-
   const products = useSelector((state) => state.product.data);
   const loadShirts = () => {
     dispatch(getShirts());
