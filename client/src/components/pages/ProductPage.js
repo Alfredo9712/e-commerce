@@ -11,12 +11,14 @@ import {
 } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { addToCart } from '../../actions/cartActions';
+import uuid from 'react-uuid';
 
 const ProductPage = () => {
   const [productItem, setProductItem] = useState({});
   const [sizeIndex, setSizeIndex] = useState(0);
   const [selectedQuantity, setSelectedQuantity] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
+  const [originalQuantity, setOriginalQuantity] = useState(0);
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -31,15 +33,32 @@ const ProductPage = () => {
     setProductItem(data);
     setLoading(false);
   };
-  const changeIndexHandler = (size, index) => {
+  const changeIndexHandler = (size, index, quantity) => {
     setSizeIndex(index);
     setSelectedSize(size);
+    setOriginalQuantity(quantity);
   };
   const addToCartHandler = (productItem) => {
-    const itemToCart = { product, image, selectedQuantity, selectedSize, id };
+    if (selectedSize === '') {
+      alert('select a size bruh');
+      return;
+    }
+    if (selectedQuantity === 0) {
+      alert('select a quantity bruh');
+      return;
+    }
+    const itemToCart = {
+      product,
+      image,
+      selectedQuantity,
+      selectedSize,
+      originalQuantity,
+      id,
+      cartId: uuid(),
+    };
     dispatch(addToCart(itemToCart));
   };
-  const updateCartHandler = (quantity, size) => {};
+
   useEffect(() => {
     fetchProduct();
   }, []);
@@ -63,7 +82,9 @@ const ProductPage = () => {
                 size.quantity > 0 ? (
                   <>
                     <Button
-                      onClick={() => changeIndexHandler(size.size, index)}
+                      onClick={() =>
+                        changeIndexHandler(size.size, index, size.quantity)
+                      }
                       id={`tbg-btn-${index + 1}`}
                       value={index + 1}
                     >

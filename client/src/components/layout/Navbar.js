@@ -1,14 +1,12 @@
 import React, { useState } from 'react';
-import { Navbar, Nav, Form, FormControl, Button } from 'react-bootstrap';
+import { Navbar, Nav, Form, FormControl, Button, Badge } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const NavbarComponent = () => {
   const [search, setSearch] = useState('');
-  let history = useHistory();
-  // const handleClick = (e) => {
-  //   history.push(`/search/${search}`);
-  // };
+  const cartItems = useSelector((state) => state.cart.data);
 
   return (
     <div>
@@ -33,7 +31,12 @@ const NavbarComponent = () => {
         </Nav>
         <Nav>
           <Nav.Link href='/login'>Login</Nav.Link>
-          <Nav.Link href='/cart'>Cart</Nav.Link>
+          <LinkContainer to='/cart'>
+            <Nav.Link>
+              {' '}
+              Cart <Badge variant='secondary'>{cartItems.length}</Badge>
+            </Nav.Link>
+          </LinkContainer>
         </Nav>
       </Navbar>
     </div> //Login will disappear once logged in

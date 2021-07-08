@@ -27,6 +27,13 @@ export function cartReducer(state = initialState, action) {
       return {
         data: [],
       };
+    case 'DELETE_CART_ITEM':
+      return {
+        ...state,
+        data: state.data.filter(
+          (item) => item.cartId !== action.payload.cartId
+        ),
+      };
     default:
       return state;
   }
