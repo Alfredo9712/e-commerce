@@ -19,6 +19,7 @@ const ProductPage = () => {
   const [variant, setVariant] = useState('');
   const [text, setText] = useState('');
   const [popup, setPopup] = useState(false);
+  const [itemPrice, setPrice] = useState(null);
   const [sizeIndex, setSizeIndex] = useState(0);
   const [selectedQuantity, setSelectedQuantity] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
@@ -37,9 +38,10 @@ const ProductPage = () => {
     setProductItem(data);
     setLoading(false);
   };
-  const changeIndexHandler = (size, index, quantity) => {
+  const changeIndexHandler = (size, index, quantity, itemPrice) => {
     setSizeIndex(index);
     setSelectedSize(size);
+    setPrice(itemPrice);
     setOriginalQuantity(quantity);
   };
   const addToCartHandler = (productItem) => {
@@ -65,6 +67,7 @@ const ProductPage = () => {
       }, 3000);
       return;
     }
+
     const itemToCart = {
       product,
       image,
@@ -73,6 +76,7 @@ const ProductPage = () => {
       originalQuantity,
       id,
       cartId: uuid(),
+      price: itemPrice,
     };
     dispatch(addToCart(itemToCart));
     setPopup(true);
@@ -111,7 +115,12 @@ const ProductPage = () => {
                   <>
                     <Button
                       onClick={() =>
-                        changeIndexHandler(size.size, index, size.quantity)
+                        changeIndexHandler(
+                          size.size,
+                          index,
+                          size.quantity,
+                          size.price
+                        )
                       }
                       id={`tbg-btn-${index + 1}`}
                       value={index + 1}
