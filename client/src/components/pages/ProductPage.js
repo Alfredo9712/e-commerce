@@ -8,6 +8,7 @@ import {
   ToggleButton,
   Spinner,
   Dropdown,
+  Alert,
 } from 'react-bootstrap';
 import { useParams } from 'react-router-dom';
 import { addToCart } from '../../actions/cartActions';
@@ -15,6 +16,9 @@ import uuid from 'react-uuid';
 
 const ProductPage = () => {
   const [productItem, setProductItem] = useState({});
+  const [variant, setVariant] = useState('');
+  const [text, setText] = useState('');
+  const [popup, setPopup] = useState(false);
   const [sizeIndex, setSizeIndex] = useState(0);
   const [selectedQuantity, setSelectedQuantity] = useState(0);
   const [selectedSize, setSelectedSize] = useState('');
@@ -40,11 +44,25 @@ const ProductPage = () => {
   };
   const addToCartHandler = (productItem) => {
     if (selectedSize === '') {
-      alert('select a size bruh');
+      setPopup(true);
+      setText('Please select a size');
+      setVariant('danger');
+      setTimeout(function () {
+        setPopup(false);
+        setText('');
+        setVariant('');
+      }, 3000);
       return;
     }
     if (selectedQuantity === 0) {
-      alert('select a quantity bruh');
+      setPopup(true);
+      setText('Please select a quantity');
+      setVariant('danger');
+      setTimeout(function () {
+        setText('');
+        setVariant('');
+        setPopup(false);
+      }, 3000);
       return;
     }
     const itemToCart = {
@@ -57,6 +75,14 @@ const ProductPage = () => {
       cartId: uuid(),
     };
     dispatch(addToCart(itemToCart));
+    setPopup(true);
+    setText('Added to cart');
+    setVariant('success');
+    setTimeout(function () {
+      setText('');
+      setVariant('');
+      setPopup(false);
+    }, 3000);
   };
 
   useEffect(() => {
@@ -65,6 +91,8 @@ const ProductPage = () => {
   const { product, image, sizes } = productItem;
   return (
     <div>
+      {popup && <Alert variant={variant}>{text}</Alert>}
+
       {loading ? (
         <Spinner animation='border' />
       ) : (

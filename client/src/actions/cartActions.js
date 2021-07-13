@@ -11,3 +11,9 @@ export const deleteCartItem = (product) => (dispatch) => {
     payload: product,
   });
 };
+
+export const deleteCart = () => (dispatch) => {
+  dispatch({
+    type: 'DELETE_CART',
+  });
+};
