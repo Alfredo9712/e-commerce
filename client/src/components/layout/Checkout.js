@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
-import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
-import styled from 'styled-components';
-import { useSelector } from 'react-redux';
-import { data } from './mockData';
-import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
-import axios from 'axios';
+import React, { useState } from "react";
+import { Modal, Button, Row, Col, Form } from "react-bootstrap";
+import styled from "styled-components";
+import { useSelector } from "react-redux";
+import { data } from "./mockData";
+import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
+import axios from "axios";
 function Checkout() {
   const cartItems = useSelector((state) => state.cart.data);
   const [show, setShow] = useState(false);
@@ -12,13 +12,13 @@ function Checkout() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [mockData, setMockdata] = useState(false);
   const [billingInfo, setBillingInfo] = useState({
-    email: '',
+    email: "",
     phone: null,
-    name: '',
+    name: "",
     address: {
-      city: '',
-      line1: '',
-      state: '',
+      city: "",
+      line1: "",
+      state: "",
       postal_code: null,
     },
   });
@@ -28,7 +28,7 @@ function Checkout() {
     setBillingInfo(data);
   };
   const test = {
-    width: '100%',
+    width: "100%",
   };
 
   const submitHandler = async (e) => {
@@ -42,7 +42,7 @@ function Checkout() {
     const cardElement = elements.getElement(CardElement);
 
     const paymentMethodReq = await stripe.createPaymentMethod({
-      type: 'card',
+      type: "card",
       card: cardElement,
       billing_details: billingInfo,
     });
@@ -64,19 +64,19 @@ function Checkout() {
         <h1>Confirmed!!</h1>
       ) : (
         <>
-          {' '}
-          <Button variant='primary' onClick={() => setShow(true)}>
+          {" "}
+          <Button variant="primary" onClick={() => setShow(true)}>
             Continue to Checkout
           </Button>
           <Modal
             show={show}
             onHide={() => setShow(false)}
-            dialogClassName='modal-90w'
-            aria-labelledby='example-custom-modal-styling-title'
+            dialogClassName="modal-90w"
+            aria-labelledby="example-custom-modal-styling-title"
           >
-            <Form>
+            <Form onSumbit={(e) => submitHandler(e)}>
               <Modal.Header closeButton>
-                <Modal.Title id='example-custom-modal-styling-title'>
+                <Modal.Title id="example-custom-modal-styling-title">
                   Checkout
                 </Modal.Title>
               </Modal.Header>
@@ -84,11 +84,7 @@ function Checkout() {
                 <Col>
                   <Modal.Body>
                     <h3>Contact information</h3>
-                    <Form.Group
-                      as={Row}
-                      controlId='formHorizontalEmail'
-                      onSumbit={(e) => submitHandler(e)}
-                    >
+                    <Form.Group as={Row} controlId="formHorizontalEmail">
                       <Form.Label column sm={2}>
                         Email:
                       </Form.Label>
@@ -101,9 +97,9 @@ function Checkout() {
                               email: e.target.value,
                             })
                           }
-                          type='email'
-                          placeholder='Email'
-                          style={{ width: '250px' }}
+                          type="email"
+                          placeholder="Email"
+                          style={{ width: "250px" }}
                         />
                       </Col>
                       <Form.Label column sm={2}>
@@ -118,16 +114,16 @@ function Checkout() {
                             })
                           }
                           value={billingInfo.phone}
-                          type='Phone'
-                          placeholder='Phone'
-                          style={{ width: '250px' }}
+                          type="Phone"
+                          placeholder="Phone"
+                          style={{ width: "250px" }}
                         />
                       </Col>
                     </Form.Group>
                   </Modal.Body>
                   <Modal.Body>
                     <h3>Shipping Address</h3>
-                    <Form.Group as={Row} controlId='formHorizontalEmail'>
+                    <Form.Group as={Row} controlId="formHorizontalEmail">
                       <Form.Label column sm={2}>
                         First Name:
                       </Form.Label>
@@ -140,9 +136,9 @@ function Checkout() {
                             })
                           }
                           value={billingInfo.name}
-                          type='Name'
-                          placeholder='Name'
-                          style={{ width: '250px' }}
+                          type="Name"
+                          placeholder="Name"
+                          style={{ width: "250px" }}
                         />
                       </Col>
 
@@ -158,9 +154,9 @@ function Checkout() {
                             })
                           }
                           value={billingInfo.address.line1}
-                          type='Address'
-                          placeholder='Address'
-                          style={{ width: '250px' }}
+                          type="Address"
+                          placeholder="Address"
+                          style={{ width: "250px" }}
                         />
                       </Col>
                       <Form.Label column sm={2}>
@@ -175,9 +171,9 @@ function Checkout() {
                               address: { city: e.target.value },
                             })
                           }
-                          type='City'
-                          placeholder='City'
-                          style={{ width: '250px' }}
+                          type="City"
+                          placeholder="City"
+                          style={{ width: "250px" }}
                         />
                       </Col>
                       <Form.Label column sm={2}>
@@ -192,9 +188,9 @@ function Checkout() {
                               address: { state: e.target.value },
                             })
                           }
-                          type='State'
-                          placeholder='State'
-                          style={{ width: '250px' }}
+                          type="State"
+                          placeholder="State"
+                          style={{ width: "250px" }}
                         />
                       </Col>
                       <Form.Label column sm={2}>
@@ -209,9 +205,9 @@ function Checkout() {
                               address: { postal_code: e.target.value },
                             })
                           }
-                          type='Zip Code'
-                          placeholder='Zip Code'
-                          style={{ width: '250px' }}
+                          type="Zip Code"
+                          placeholder="Zip Code"
+                          style={{ width: "250px" }}
                         />
                       </Col>
                     </Form.Group>
@@ -219,28 +215,28 @@ function Checkout() {
                   <Modal.Body>
                     <h3>Shipping method</h3>
                     <Form.Check
-                      type='radio'
-                      label='Free Shipping'
-                      name='formHorizontalRadios'
-                      id='formHorizontalRadios1'
+                      type="radio"
+                      label="Free Shipping"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios1"
                     />
                     <Form.Check
-                      type='radio'
-                      label='Ground Shipping'
-                      name='formHorizontalRadios'
-                      id='formHorizontalRadios2'
+                      type="radio"
+                      label="Ground Shipping"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios2"
                     />
                     <Form.Check
-                      type='radio'
-                      label='FedEx 2Day'
-                      name='formHorizontalRadios'
-                      id='formHorizontalRadios3'
+                      type="radio"
+                      label="FedEx 2Day"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios3"
                     />
                     <Form.Check
-                      type='radio'
-                      label='FedEx Overnight'
-                      name='formHorizontalRadios'
-                      id='formHorizontalRadios3'
+                      type="radio"
+                      label="FedEx Overnight"
+                      name="formHorizontalRadios"
+                      id="formHorizontalRadios3"
                     />
                   </Modal.Body>
                 </Col>
@@ -248,7 +244,7 @@ function Checkout() {
                   <Modal.Body>
                     <h3>Order Summary</h3>
                     <h5>
-                      Total price:{' '}
+                      Total price:
                       {cartItems.reduce(
                         (accu, cur) => accu + cur.quantityPrice,
                         0
@@ -256,11 +252,11 @@ function Checkout() {
                     </h5>
 
                     <Button
-                      variant='danger'
+                      variant="danger"
                       onClick={submitHandler}
                       disabled={isProcessing}
                     >
-                      {isProcessing ? 'Processing..' : 'checkout'}
+                      {isProcessing ? "Processing.." : "checkout"}
                     </Button>
                     <Button onClick={() => mockHandler()}>Load Data</Button>
                     <CardElement></CardElement>
@@ -268,7 +264,7 @@ function Checkout() {
                 </Col>
               </Row>
             </Form>
-          </Modal>{' '}
+          </Modal>{" "}
         </>
       )}
     </>
