@@ -71,6 +71,8 @@ const ProductPage = () => {
     const itemToCart = {
       product,
       image,
+      sizes,
+      category,
       selectedQuantity,
       selectedSize,
       originalQuantity,
