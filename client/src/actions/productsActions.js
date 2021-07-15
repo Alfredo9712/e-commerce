@@ -32,3 +32,27 @@ export const filterProducts = (search) => async (dispatch) => {
     payload: filteredProduct,
   });
 };
+
+export const updateProducts = (cart) => async (dispatch) => {
+  cart.forEach(async (cartItem) => {
+    const allSizes = [...cartItem.sizes];
+    const sizes = allSizes.map((size) =>
+      size.size === cartItem.selectedSize
+        ? {
+            size: size.size,
+            quantity: cartItem.originalQuantity - cartItem.selectedQuantity,
+            price: size.price,
+          }
+        : { size: size.size, quantity: size.quantity, price: size.price }
+    );
+    // cartItem.originalQuantity - cartItem.selectedQuantity,
+    // const test = await axios.get('http://localhost:5000/api/test');
+
+    await axios.put(
+      `http://localhost:5000/api/${cartItem.category}/${cartItem.id}`,
+      { sizes }
+    );
+    const res = await axios.get('http://localhost:5000/api/all-products');
+    console.log(res.data);
+  });
+};
