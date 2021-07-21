@@ -6,6 +6,7 @@ import { data } from './mockData';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { updateProducts } from '../../actions/productsActions';
+import { deleteCart } from '../../actions/cartActions';
 function Checkout() {
   const cartItems = useSelector((state) => state.cart.data);
   const dispatch = useDispatch();
@@ -28,12 +29,14 @@ function Checkout() {
   const elements = useElements();
   const mockHandler = () => {
     setBillingInfo(data);
+    dispatch(deleteCart());
   };
   const test = {
     width: '100%',
   };
   const testHandler = () => {
     dispatch(updateProducts(cartItems));
+    dispatch(deleteCart());
   };
   const submitHandler = async (e) => {
     const amount =
@@ -58,12 +61,30 @@ function Checkout() {
       }
     );
     setIsProcessing(false);
-    setConfirmed(true);
+
     console.log(confirmCardPayment);
 
     dispatch(updateProducts(cartItems));
+    dispatch(deleteCart()); // not showing confirm
+    setConfirmed(true);
   };
 
+  //CardElement Styling
+  const cardElementOptions = {
+    style: {
+      base: {
+        fontSize: '20px',
+        lineHeight: '35px',
+        color: 'white',
+        iconColor: 'white',
+        backgroundColor: '#011a4d',
+        '::placeholder': {
+          color: 'black',
+          backgroundColor: 'white',
+        },
+      },
+    },
+  };
   return (
     <>
       {confirmed ? (
@@ -249,13 +270,36 @@ function Checkout() {
                 <Col>
                   <Modal.Body>
                     <h3>Order Summary</h3>
-                    <h5>
-                      Total price:
+                    {cartItems.map((item) => (
+                      <p
+                        style={{
+                          display: 'flex',
+                          borderBottom: '3px solid black',
+                        }}
+                      >
+                        <img
+                          src={item.image}
+                          style={{ width: '65px', height: '65px' }}
+                        ></img>
+                        <h4>
+                          {item.product}{' '}
+                          <p
+                            style={{
+                              display: 'block',
+                            }}
+                          >
+                            quantity: {item.selectedQuantity}
+                          </p>
+                        </h4>
+                      </p>
+                    ))}
+                    <h4>
+                      Total price: $
                       {cartItems.reduce(
                         (accu, cur) => accu + cur.quantityPrice,
                         0
                       )}
-                    </h5>
+                    </h4>
 
                     <Button
                       variant='danger'
@@ -266,7 +310,7 @@ function Checkout() {
                     </Button>
                     <Button onClick={() => mockHandler()}>Load Data</Button>
                     <Button onClick={() => testHandler()}>Test</Button>
-                    <CardElement></CardElement>
+                    <CardElement options={cardElementOptions}></CardElement>
                   </Modal.Body>
                 </Col>
               </Row>
