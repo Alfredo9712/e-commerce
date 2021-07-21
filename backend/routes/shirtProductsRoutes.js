@@ -29,22 +29,25 @@ router.post("/shirts", (req, res) => {
   res.send(`Product added`).status(200);
 });
 
-router.put("/shirts/:id", async (req, res) => {
-  const _id = req.params.id;
-  // const key = req.params.key;
-  // key !== process.env.KEY && res.json({ msg: "Not authorized" }).status(400);
-  const { category, product, image, sizes } = req.body;
-  const updatedShirt = {
-    category,
-    product,
-    image,
-    sizes,
-  };
-  await ShirtProduct.replaceOne({ _id }, updatedShirt);
-  res.send("Updated").status(200);
-});
+// router.put("/shirts/:id", async (req, res) => {
+//   const _id = req.params.id;
+//   // const key = req.params.key;
+//   // key !== process.env.KEY && res.json({ msg: "Not authorized" }).status(400);
+//   const { category, product, image, sizes } = req.body;
+//   const updatedShirt = {
+//     category,
+//     product,
+//     image,
+//     sizes,
+//   };
+//   await ShirtProduct.replaceOne({ _id }, updatedShirt);
+//   res.send("Updated").status(200);
+// });
 
-router.put("/test/shirts/:id", async (req, res) => {
+//* PUT Request
+//* Public
+//* Route to update after successful purchase
+router.put("/shirts/:id", async (req, res) => {
   const _id = req.params.id;
   // const key = req.params.key;
   // key !== process.env.KEY && res.json({ msg: "Not authorized" }).status(400);

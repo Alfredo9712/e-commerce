@@ -48,7 +48,6 @@ router.post("/pants", (req, res) => {
 //     : await PantProduct.replaceOne({ _id }, updatedPant);
 //   res.send("Updated").status(200);
 // });
-
 router.put("/pants/:id", async (req, res) => {
   const _id = req.params.id;
   // const key = req.params.key;
