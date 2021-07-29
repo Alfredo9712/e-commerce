@@ -1,11 +1,14 @@
 import React, { useState } from 'react';
 import { Modal, Button, Row, Col, Form } from 'react-bootstrap';
+import emailjs from 'emailjs-com';
 import styled from 'styled-components';
 import { useSelector, useDispatch } from 'react-redux';
 import { data } from './mockData';
 import { CardElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import axios from 'axios';
 import { updateProducts } from '../../actions/productsActions';
+import { deleteCart } from '../../actions/cartActions';
+import PurchaseConfirmation from './PurchaseConfirmation';
 function Checkout() {
   const cartItems = useSelector((state) => state.cart.data);
   const dispatch = useDispatch();
@@ -13,6 +16,8 @@ function Checkout() {
   const [confirmed, setConfirmed] = useState(false);
   const [isProcessing, setIsProcessing] = useState(false);
   const [mockData, setMockdata] = useState(false);
+  const [show2, setShow2] = useState(false);
+
   const [billingInfo, setBillingInfo] = useState({
     email: '',
     phone: null,
@@ -34,7 +39,47 @@ function Checkout() {
   };
   const testHandler = () => {
     dispatch(updateProducts(cartItems));
+    // dispatch(deleteCart());
   };
+
+  const sumbitOrder = async () => {
+    const order = cartItems.map(
+      (item) =>
+        item && {
+          product: item.product,
+          quantityPurchased: item.selectedQuantity,
+          sizePurchased: item.selectedSize,
+        }
+    );
+
+    await axios.post('/api/order', {
+      order,
+      billingDetails: billingInfo,
+    });
+    const { name, email } = billingInfo;
+    const emailParams = {
+      subjectDetails: 'E-commerce order confirmation',
+      clientEmail: email,
+      clientName: name,
+      total: cartItems.reduce((accu, cur) => accu + cur.quantityPrice, 0),
+    };
+    emailjs
+      .send(
+        'service_wr8fymg',
+        'template_y0i84tl',
+        emailParams,
+        'user_pGAwoYSZYBM0A4ixJh7kp'
+      )
+      .then(
+        (result) => {
+          console.log(result.text);
+        },
+        (error) => {
+          console.log(error.text);
+        }
+      );
+  };
+
   const submitHandler = async (e) => {
     const amount =
       cartItems.reduce((accu, cur) => accu + cur.quantityPrice, 0) * 100;
@@ -59,220 +104,266 @@ function Checkout() {
     );
     setIsProcessing(false);
     setConfirmed(true);
-    console.log(confirmCardPayment);
 
+    console.log(confirmCardPayment);
+    sumbitOrder();
     dispatch(updateProducts(cartItems));
+    console.log(confirmed);
+    setShow2(true);
+    dispatch(deleteCart()); // not showing confirm
   };
 
+  //CardElement Styling
+  const cardElementOptions = {
+    style: {
+      base: {
+        fontSize: '20px',
+        lineHeight: '35px',
+        color: 'white',
+        iconColor: 'white',
+        backgroundColor: '#011a4d',
+        '::placeholder': {
+          color: 'black',
+          backgroundColor: 'white',
+        },
+      },
+    },
+  };
   return (
     <>
       {confirmed ? (
-        <h1>Confirmed!!</h1>
+        <PurchaseConfirmation setShow2={setShow} show2={show} />
       ) : (
-        <>
-          {' '}
-          <Button variant='primary' onClick={() => setShow(true)}>
-            Continue to Checkout
-          </Button>
-          <Modal
-            show={show}
-            onHide={() => setShow(false)}
-            dialogClassName='modal-90w'
-            aria-labelledby='example-custom-modal-styling-title'
-          >
-            <Form onSumbit={(e) => submitHandler(e)}>
-              <Modal.Header closeButton>
-                <Modal.Title id='example-custom-modal-styling-title'>
-                  Checkout
-                </Modal.Title>
-              </Modal.Header>
-              <Row>
-                <Col>
-                  <Modal.Body>
-                    <h3>Contact information</h3>
-                    <Form.Group as={Row} controlId='formHorizontalEmail'>
-                      <Form.Label column sm={2}>
-                        Email:
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Control
-                          value={billingInfo.email}
-                          onChange={(e) =>
-                            setBillingInfo({
-                              ...billingInfo,
-                              email: e.target.value,
-                            })
-                          }
-                          type='email'
-                          placeholder='Email'
-                          style={{ width: '250px' }}
-                        />
-                      </Col>
-                      <Form.Label column sm={2}>
-                        Phone:
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Control
-                          onChange={(e) =>
-                            setBillingInfo({
-                              ...billingInfo,
-                              phone: e.target.value,
-                            })
-                          }
-                          value={billingInfo.phone}
-                          type='Phone'
-                          placeholder='Phone'
-                          style={{ width: '250px' }}
-                        />
-                      </Col>
-                    </Form.Group>
-                  </Modal.Body>
-                  <Modal.Body>
-                    <h3>Shipping Address</h3>
-                    <Form.Group as={Row} controlId='formHorizontalEmail'>
-                      <Form.Label column sm={2}>
-                        First Name:
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Control
-                          onChange={(e) =>
-                            setBillingInfo({
-                              ...billingInfo,
-                              name: e.target.value,
-                            })
-                          }
-                          value={billingInfo.name}
-                          type='Name'
-                          placeholder='Name'
-                          style={{ width: '250px' }}
-                        />
-                      </Col>
+        !confirmed &&
+        cartItems.length > 0 && (
+          <>
+            {' '}
+            <Button variant='primary' onClick={() => setShow(true)}>
+              Continue to Checkout
+            </Button>
+            <Modal
+              show={show}
+              onHide={() => setShow(false)}
+              dialogClassName='modal-90w'
+              aria-labelledby='example-custom-modal-styling-title'
+            >
+              <Form onSumbit={(e) => submitHandler(e)}>
+                <Modal.Header closeButton>
+                  <Modal.Title id='example-custom-modal-styling-title'>
+                    Checkout
+                  </Modal.Title>
+                </Modal.Header>
+                <Row>
+                  <Col>
+                    <Modal.Body>
+                      <h3>Contact information</h3>
+                      <Form.Group as={Row} controlId='formHorizontalEmail'>
+                        <Form.Label column sm={2}>
+                          Email:
+                        </Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            value={billingInfo.email}
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                email: e.target.value,
+                              })
+                            }
+                            type='email'
+                            placeholder='Email'
+                            style={{ width: '250px' }}
+                          />
+                        </Col>
+                        <Form.Label column sm={2}>
+                          Phone:
+                        </Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                phone: e.target.value,
+                              })
+                            }
+                            value={billingInfo.phone}
+                            type='Phone'
+                            placeholder='Phone'
+                            style={{ width: '250px' }}
+                          />
+                        </Col>
+                      </Form.Group>
+                    </Modal.Body>
+                    <Modal.Body>
+                      <h3>Shipping Address</h3>
+                      <Form.Group as={Row} controlId='formHorizontalEmail'>
+                        <Form.Label column sm={2}>
+                          First Name:
+                        </Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                name: e.target.value,
+                              })
+                            }
+                            value={billingInfo.name}
+                            type='Name'
+                            placeholder='Name'
+                            style={{ width: '250px' }}
+                          />
+                        </Col>
 
-                      <Form.Label column sm={2}>
-                        Address:
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Control
-                          onChange={(e) =>
-                            setBillingInfo({
-                              ...billingInfo,
-                              address: { line1: e.target.value },
-                            })
-                          }
-                          value={billingInfo.address.line1}
-                          type='Address'
-                          placeholder='Address'
-                          style={{ width: '250px' }}
-                        />
-                      </Col>
-                      <Form.Label column sm={2}>
-                        City:
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Control
-                          value={billingInfo.address.city}
-                          onChange={(e) =>
-                            setBillingInfo({
-                              ...billingInfo,
-                              address: { city: e.target.value },
-                            })
-                          }
-                          type='City'
-                          placeholder='City'
-                          style={{ width: '250px' }}
-                        />
-                      </Col>
-                      <Form.Label column sm={2}>
-                        State:
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Control
-                          value={billingInfo.address.state}
-                          onChange={(e) =>
-                            setBillingInfo({
-                              ...billingInfo,
-                              address: { state: e.target.value },
-                            })
-                          }
-                          type='State'
-                          placeholder='State'
-                          style={{ width: '250px' }}
-                        />
-                      </Col>
-                      <Form.Label column sm={2}>
-                        Zip Code:
-                      </Form.Label>
-                      <Col sm={10}>
-                        <Form.Control
-                          value={billingInfo.address.postal_code}
-                          onChange={(e) =>
-                            setBillingInfo({
-                              ...billingInfo,
-                              address: { postal_code: e.target.value },
-                            })
-                          }
-                          type='Zip Code'
-                          placeholder='Zip Code'
-                          style={{ width: '250px' }}
-                        />
-                      </Col>
-                    </Form.Group>
-                  </Modal.Body>
-                  <Modal.Body>
-                    <h3>Shipping method</h3>
-                    <Form.Check
-                      type='radio'
-                      label='Free Shipping'
-                      name='formHorizontalRadios'
-                      id='formHorizontalRadios1'
-                    />
-                    <Form.Check
-                      type='radio'
-                      label='Ground Shipping'
-                      name='formHorizontalRadios'
-                      id='formHorizontalRadios2'
-                    />
-                    <Form.Check
-                      type='radio'
-                      label='FedEx 2Day'
-                      name='formHorizontalRadios'
-                      id='formHorizontalRadios3'
-                    />
-                    <Form.Check
-                      type='radio'
-                      label='FedEx Overnight'
-                      name='formHorizontalRadios'
-                      id='formHorizontalRadios3'
-                    />
-                  </Modal.Body>
-                </Col>
-                <Col>
-                  <Modal.Body>
-                    <h3>Order Summary</h3>
-                    <h5>
-                      Total price:
-                      {cartItems.reduce(
-                        (accu, cur) => accu + cur.quantityPrice,
-                        0
-                      )}
-                    </h5>
+                        <Form.Label column sm={2}>
+                          Address:
+                        </Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                address: { line1: e.target.value },
+                              })
+                            }
+                            value={billingInfo.address.line1}
+                            type='Address'
+                            placeholder='Address'
+                            style={{ width: '250px' }}
+                          />
+                        </Col>
+                        <Form.Label column sm={2}>
+                          City:
+                        </Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            value={billingInfo.address.city}
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                address: { city: e.target.value },
+                              })
+                            }
+                            type='City'
+                            placeholder='City'
+                            style={{ width: '250px' }}
+                          />
+                        </Col>
+                        <Form.Label column sm={2}>
+                          State:
+                        </Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            value={billingInfo.address.state}
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                address: { state: e.target.value },
+                              })
+                            }
+                            type='State'
+                            placeholder='State'
+                            style={{ width: '250px' }}
+                          />
+                        </Col>
+                        <Form.Label column sm={2}>
+                          Zip Code:
+                        </Form.Label>
+                        <Col sm={10}>
+                          <Form.Control
+                            value={billingInfo.address.postal_code}
+                            onChange={(e) =>
+                              setBillingInfo({
+                                ...billingInfo,
+                                address: { postal_code: e.target.value },
+                              })
+                            }
+                            type='Zip Code'
+                            placeholder='Zip Code'
+                            style={{ width: '250px' }}
+                          />
+                        </Col>
+                      </Form.Group>
+                    </Modal.Body>
+                    <Modal.Body>
+                      <h3>Shipping method</h3>
+                      <Form.Check
+                        type='radio'
+                        label='Free Shipping'
+                        name='formHorizontalRadios'
+                        id='formHorizontalRadios1'
+                      />
+                      <Form.Check
+                        type='radio'
+                        label='Ground Shipping'
+                        name='formHorizontalRadios'
+                        id='formHorizontalRadios2'
+                      />
+                      <Form.Check
+                        type='radio'
+                        label='FedEx 2Day'
+                        name='formHorizontalRadios'
+                        id='formHorizontalRadios3'
+                      />
+                      <Form.Check
+                        type='radio'
+                        label='FedEx Overnight'
+                        name='formHorizontalRadios'
+                        id='formHorizontalRadios3'
+                      />
+                    </Modal.Body>
+                  </Col>
+                  <Col>
+                    <Modal.Body>
+                      <h3>Order Summary</h3>
+                      {cartItems.map((item) => (
+                        <p
+                          style={{
+                            display: 'flex',
+                            borderBottom: '3px solid black',
+                          }}
+                        >
+                          <img
+                            src={item.image}
+                            style={{ width: '65px', height: '65px' }}
+                          ></img>
+                          <h4>
+                            {item.product}{' '}
+                            <p
+                              style={{
+                                display: 'block',
+                              }}
+                            >
+                              quantity: {item.selectedQuantity}
+                            </p>
+                          </h4>
+                        </p>
+                      ))}
+                      <h4>
+                        Total price: $
+                        {cartItems.reduce(
+                          (accu, cur) => accu + cur.quantityPrice,
+                          0
+                        )}
+                      </h4>
 
-                    <Button
-                      variant='danger'
-                      onClick={submitHandler}
-                      disabled={isProcessing}
-                    >
-                      {isProcessing ? 'Processing..' : 'checkout'}
-                    </Button>
-                    <Button onClick={() => mockHandler()}>Load Data</Button>
-                    <Button onClick={() => testHandler()}>Test</Button>
-                    <CardElement></CardElement>
-                  </Modal.Body>
-                </Col>
-              </Row>
-            </Form>
-          </Modal>{' '}
-        </>
+                      <Button
+                        variant='danger'
+                        onClick={submitHandler}
+                        disabled={isProcessing}
+                      >
+                        {isProcessing ? 'Processing..' : 'checkout'}
+                      </Button>
+                      <Button onClick={() => mockHandler()}>Load Data</Button>
+                      <Button onClick={() => testHandler()}>Test</Button>
+                      <CardElement></CardElement>
+                    </Modal.Body>
+                  </Col>
+                </Row>
+              </Form>
+            </Modal>{' '}
+          </>
+        )
       )}
     </>
   );

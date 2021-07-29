@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Navbar, Nav, Form, FormControl, Button, Badge } from 'react-bootstrap';
 import { LinkContainer } from 'react-router-bootstrap';
-import { Link } from 'react-router-dom';
+
 import { useSelector } from 'react-redux';
 
 const NavbarComponent = () => {
@@ -25,9 +25,9 @@ const NavbarComponent = () => {
             className='mr-sm-2'
             onChange={(e) => setSearch(e.target.value)}
           />
-          <Link to={`/search/${search}`}>
+          <LinkContainer to={`/search/${search}`}>
             <Button variant='outline-light'>Search</Button>
-          </Link>
+          </LinkContainer>
         </Nav>
         <Nav>
           <Nav.Link href='/login'>Login</Nav.Link>

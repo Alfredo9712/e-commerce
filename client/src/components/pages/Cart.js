@@ -108,7 +108,7 @@ const Cart = () => {
           </Card>
         ))}
       </div>
-      {cartItems.length > 0 && (
+      {cartItems.length >= 0 && (
         <>
           <Checkout />
         </>

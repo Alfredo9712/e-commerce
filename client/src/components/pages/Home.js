@@ -34,8 +34,8 @@ const Home = () => {
           </Col>
         ))}
       </Row>
-      <button onClick={loadShirts}>Load Shirts</button>{' '}
-      <button onClick={loadAll}>Load All Again</button>{' '}
+      {/* <button onClick={loadShirts}>Load Shirts</button>{' '}
+      <button onClick={loadAll}>Load All Again</button>{' '} */}
     </>
   );
 };
