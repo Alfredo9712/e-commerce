@@ -40,7 +40,7 @@ export function cartReducer(state = initialState, action) {
         data: addCart,
       };
     case 'DELETE_CART':
-      localStorage.removeItem('cart');
+      localStorage.setItem('cart', JSON.stringify([]));
       return {
         data: [],
       };
