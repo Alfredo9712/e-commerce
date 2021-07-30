@@ -27,3 +27,9 @@ export const adminLogin = (email, password) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const adminLogout = () => (dispatch) => {
+  dispatch({
+    type: "ADMIN_LOGOUT",
+  });
+};
