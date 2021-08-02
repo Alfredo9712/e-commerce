@@ -1,29 +1,29 @@
-import React from "react";
-import { Navbar, Container, Nav, Row, Col } from "react-bootstrap";
+import React from 'react';
+import { Navbar, Container, Nav, Row, Col } from 'react-bootstrap';
 import {
   BrowserRouter as Router,
   Route,
   Switch,
   Link,
   useHistory,
-} from "react-router-dom";
-import AddItem from "./AddItem";
-import AddShoppingCartIcon from "@material-ui/icons/AddShoppingCart";
-import HomeIcon from "@material-ui/icons/Home";
-import UpdateIcon from "@material-ui/icons/Update";
-import { LinkContainer } from "react-router-bootstrap";
-import { useSelector, useDispatch } from "react-redux";
-import DeleteForeverIcon from "@material-ui/icons/DeleteForever";
-import { Redirect } from "react-router";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
-import AddUpdateItem from "./AdminUpdateItem";
-import { adminLogout } from "../../actions/adminActions";
+} from 'react-router-dom';
+import AddItem from './AddItem';
+import AddShoppingCartIcon from '@material-ui/icons/AddShoppingCart';
+import HomeIcon from '@material-ui/icons/Home';
+import UpdateIcon from '@material-ui/icons/Update';
+import { LinkContainer } from 'react-router-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import { Redirect } from 'react-router';
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
+import AddUpdateItem from './AdminUpdateItem';
+import { adminLogout } from '../../actions/adminActions';
 const AdminDash = () => {
   const isLoggedIn = useSelector((state) => state.admin.data.authenticated);
   const dispatch = useDispatch();
   const signOutHandler = () => {
     dispatch(adminLogout());
-    localStorage.setItem("token", "");
+    localStorage.setItem('token', '');
   };
 
   return (
@@ -32,43 +32,38 @@ const AdminDash = () => {
         <Row>
           <Col sm={1}>
             <Navbar
-              bg="primary"
-              variant="dark"
-              style={{ width: "80px", height: "926px" }}
+              bg='primary'
+              variant='dark'
+              style={{ width: '80px', height: '926px' }}
             >
-              <Navbar.Collapse id="navbarScroll">
+              <Navbar.Collapse id='navbarScroll'>
                 <Nav
-                  className="me-auto"
-                  className="flex-column"
+                  className='me-auto'
+                  className='flex-column'
                   style={{
-                    marginLeft: "5px",
-                    marginTop: "-650px",
+                    marginLeft: '5px',
+                    marginTop: '-650px',
                   }}
                 >
-                  <LinkContainer to="/adminHome">
+                  <LinkContainer to='/adminHome'>
                     <Nav.Link>
-                      <HomeIcon style={{ marginTop: "20px" }} />
+                      <HomeIcon style={{ marginTop: '20px' }} />
                     </Nav.Link>
                   </LinkContainer>
 
-                  <LinkContainer to="/add">
+                  <LinkContainer to='/add'>
                     <Nav.Link>
-                      <AddShoppingCartIcon style={{ marginTop: "20px" }} />
+                      <AddShoppingCartIcon style={{ marginTop: '20px' }} />
                     </Nav.Link>
                   </LinkContainer>
 
-                  <LinkContainer to="/update">
+                  <LinkContainer to='/update'>
                     <Nav.Link>
-                      <UpdateIcon style={{ marginTop: "20px" }} />
-                    </Nav.Link>
-                  </LinkContainer>
-                  <LinkContainer to="/delete">
-                    <Nav.Link>
-                      <DeleteForeverIcon style={{ marginTop: "20px" }} />
+                      <UpdateIcon style={{ marginTop: '20px' }} />
                     </Nav.Link>
                   </LinkContainer>
                   <Nav.Link onClick={signOutHandler}>
-                    <ExitToAppIcon style={{ marginTop: "20px" }} />
+                    <ExitToAppIcon style={{ marginTop: '20px' }} />
                   </Nav.Link>
                 </Nav>
               </Navbar.Collapse>
@@ -76,8 +71,8 @@ const AdminDash = () => {
           </Col>
           <Col sm={11}>
             <Switch>
-              <Route path="/add" component={AddItem}></Route>
-              <Route path="/update" component={AddUpdateItem}></Route>
+              <Route path='/add' component={AddItem}></Route>
+              <Route path='/update' component={AddUpdateItem}></Route>
             </Switch>
           </Col>
         </Row>

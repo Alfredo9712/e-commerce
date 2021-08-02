@@ -7,6 +7,8 @@ const authMiddleware = require('./middleware');
 const path = require('path');
 const saltRounds = 10;
 const fs = require('fs');
+const ShirtProduct = require('../schema/shirtProductSchema');
+const PantProduct = require('../schema/pantProductSchema');
 
 router.post('/admin/login', async (req, res) => {
   const { email, password } = req.body;
@@ -21,6 +23,16 @@ router.post('/admin/login', async (req, res) => {
   res.send('login');
 
   res.send(error).status(400);
+});
+
+router.delete('/admin/:category/:id', authMiddleware, async (req, res) => {
+  const { category, id } = req.params;
+  if (category === 'pants') {
+    await PantProduct.findByIdAndRemove(id);
+    res.send('item removed').status(400);
+  }
+  await ShirtProduct.findByIdAndRemove(id);
+  res.send('item removed').status(400);
 });
 
 // router.post('/admin', async (req, res) => {

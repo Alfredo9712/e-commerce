@@ -18,6 +18,23 @@ export function productReducer(state = initialState, action) {
         ...state,
         data: action.payload,
       };
+    case 'DELETE_PRODUCT':
+      const removedProduct = state.data.filter(
+        (product) => product._id !== action.payload
+      );
+      return {
+        ...state,
+        data: removedProduct,
+      };
+    case 'EDIT_PRODUCT':
+      const { _id, category, product, image, sizes } = action.payload;
+      return {
+        ...state,
+        data: state.data.map((item) =>
+          item._id === _id ? { ...item, category, product, image, sizes } : item
+        ),
+      };
+
     default:
       return state;
   }
