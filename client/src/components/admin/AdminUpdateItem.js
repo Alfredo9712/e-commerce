@@ -25,9 +25,9 @@ const AdminUpdateItem = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.data);
   const [start, setStart] = useState(0);
-  const [end, setEnd] = useState(3);
+  const [end, setEnd] = useState(4);
   const [page, setPage] = useState(1);
-  const [limit, setLimit] = useState(3);
+  const [limit, setLimit] = useState(4);
 
   const [data, setData] = useState();
   const pattern = limit - 1;
@@ -73,7 +73,7 @@ const AdminUpdateItem = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {data.map((product) => (
+          {data?.map((product) => (
             <TableRow key={product._id}>
               <TableCell component="th" scope="products">
                 {product.product}
