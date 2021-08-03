@@ -35,7 +35,7 @@ router.post('/pants', authMiddleware, (req, res) => {
 
 //* PUT REQUEST
 //* PRIVATE
-router.put('/pants/update/:id', async (req, res) => {
+router.put('/pants/update/:id', authMiddleware, async (req, res) => {
   const _id = req.params.id;
   const { category, product, image, sizes } = req.body;
   const updatedPant = {
