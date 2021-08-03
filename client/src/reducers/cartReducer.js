@@ -34,7 +34,7 @@ export function cartReducer(state = initialState, action) {
               },
             ];
       //set local storage here
-      // console.log(addCart);
+
       localStorage.setItem('cart', JSON.stringify(addCart));
       return {
         data: addCart,
