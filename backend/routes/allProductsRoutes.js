@@ -15,7 +15,6 @@ router.get("/all-products", async (req, res) => {
 });
 
 router.get("/test", authMiddleWare, async (req, res) => {
-  const id = req.admin;
   try {
     res.json(req.admin);
   } catch (error) {
