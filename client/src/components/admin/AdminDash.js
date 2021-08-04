@@ -18,6 +18,7 @@ import { Redirect } from 'react-router';
 import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import AddUpdateItem from './AdminUpdateItem';
 import { adminLogout } from '../../actions/adminActions';
+import Dashboard from './Dashboard';
 const AdminDash = () => {
   const isLoggedIn = useSelector((state) => state.admin.data.authenticated);
   const dispatch = useDispatch();
@@ -29,8 +30,8 @@ const AdminDash = () => {
   return (
     <>
       <Router>
-        <Row>
-          <Col sm={1}>
+        <div style={{ display: 'flex' }}>
+          <div style={{ flex: '.1' }}>
             <Navbar
               bg='primary'
               variant='dark'
@@ -45,7 +46,7 @@ const AdminDash = () => {
                     marginTop: '-650px',
                   }}
                 >
-                  <LinkContainer to='/adminHome'>
+                  <LinkContainer to='/admin'>
                     <Nav.Link>
                       <HomeIcon style={{ marginTop: '20px' }} />
                     </Nav.Link>
@@ -68,14 +69,15 @@ const AdminDash = () => {
                 </Nav>
               </Navbar.Collapse>
             </Navbar>
-          </Col>
-          <Col sm={11}>
+          </div>
+          <div style={{ flex: '.8' }}>
             <Switch>
               <Route path='/add' component={AddItem}></Route>
+              <Route path='/admin' component={Dashboard}></Route>
               <Route path='/update' component={AddUpdateItem}></Route>
             </Switch>
-          </Col>
-        </Row>
+          </div>
+        </div>
       </Router>
     </>
   );
