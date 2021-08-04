@@ -34,6 +34,12 @@ export function productReducer(state = initialState, action) {
           item._id === _id ? { ...item, category, product, image, sizes } : item
         ),
       };
+    case 'PAGINATE_PRODUCT':
+      return {
+        ...state,
+        data: action.payload,
+        length: action.length,
+      };
 
     default:
       return state;

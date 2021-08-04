@@ -93,3 +93,16 @@ export const editProduct = (updatedProduct) => async (dispatch) => {
     payload: updatedProduct,
   });
 };
+
+export const paginateProducts = (start, end) => async (dispatch) => {
+  const result = await axios.get(`api/paginated-products/${start}/${end}`);
+  const data = result.data.paginatedProducts;
+  const length = result.data.length;
+  // console.log(data);
+
+  dispatch({
+    type: 'PAGINATE_PRODUCT',
+    payload: data,
+    length,
+  });
+};
