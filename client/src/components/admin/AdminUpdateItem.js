@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { getProducts, deleteProduct } from '../../actions/productsActions';
-import TextField from '@material-ui/core/TextField';
-import axios from 'axios';
-import { Pagination } from '@material-ui/lab';
-import CancelIcon from '@material-ui/icons/Cancel';
-import EditModal from './EditModal';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getProducts, deleteProduct } from "../../actions/productsActions";
+import TextField from "@material-ui/core/TextField";
+import axios from "axios";
+import { Pagination } from "@material-ui/lab";
+import CancelIcon from "@material-ui/icons/Cancel";
+import EditModal from "./EditModal";
 import {
   Table,
   TableBody,
@@ -15,8 +15,8 @@ import {
   TableRow,
   Paper,
   makeStyles,
-} from '@material-ui/core';
-import { Button, Modal } from 'react-bootstrap';
+} from "@material-ui/core";
+import { Button, Modal } from "react-bootstrap";
 
 const useStyles = makeStyles({
   table: {
@@ -72,31 +72,6 @@ const AdminUpdateItem = () => {
   const classes = useStyles();
 
   return (
-<<<<<<< HEAD
-    <TableContainer
-      component={Paper}
-      style={{ marginLeft: "-30px", marginTop: "10px" }}
-    >
-      <Table className={classes.table} aria-label="simple table">
-        <TableHead>
-          <TableRow>
-            <TableCell>Product</TableCell>
-            <TableCell align="right">Category</TableCell>
-            <TableCell align="right">Quantity(S)</TableCell>
-            <TableCell align="right">Price(S)</TableCell>
-            <TableCell align="right">Quantity(M)</TableCell>
-            <TableCell align="right">Price(M)</TableCell>
-            <TableCell align="right">Quantity(L)</TableCell>
-            <TableCell align="right">Price(L)</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {data?.map((product) => (
-            <TableRow key={product._id}>
-              <TableCell component="th" scope="products">
-                {product.product}
-              </TableCell>
-=======
     <>
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -106,61 +81,60 @@ const AdminUpdateItem = () => {
           Are you sure you want to remove {product?.product}
         </Modal.Body>
         <Modal.Footer>
-          <Button variant='secondary' onClick={handleClose}>
+          <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
-          <Button variant='danger' onClick={deleteHandler}>
+          <Button variant="danger" onClick={deleteHandler}>
             Delete
           </Button>
         </Modal.Footer>
       </Modal>
->>>>>>> main
 
       <TableContainer
         component={Paper}
-        style={{ marginLeft: '-30px', marginTop: '10px' }}
+        style={{ marginLeft: "-30px", marginTop: "10px" }}
       >
-        <Table className={classes.table} aria-label='simple table'>
+        <Table className={classes.table} aria-label="simple table">
           <TableHead>
             <TableRow>
               <TableCell>Product</TableCell>
-              <TableCell align='right'>Edit</TableCell>
-              <TableCell align='right'>Category</TableCell>
-              <TableCell align='right'>Quantity(S)</TableCell>
-              <TableCell align='right'>Price(S)</TableCell>
-              <TableCell align='right'>Quantity(M)</TableCell>
-              <TableCell align='right'>Price(M)</TableCell>
-              <TableCell align='right'>Quantity(L)</TableCell>
-              <TableCell align='right'>Price(L)</TableCell>
-              <TableCell align='right'>Delete</TableCell>
+              <TableCell align="right">Edit</TableCell>
+              <TableCell align="right">Category</TableCell>
+              <TableCell align="right">Quantity(S)</TableCell>
+              <TableCell align="right">Price(S)</TableCell>
+              <TableCell align="right">Quantity(M)</TableCell>
+              <TableCell align="right">Price(M)</TableCell>
+              <TableCell align="right">Quantity(L)</TableCell>
+              <TableCell align="right">Price(L)</TableCell>
+              <TableCell align="right">Delete</TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
             {products.map((product) => (
               <TableRow key={product._id}>
-                <TableCell component='th' scope='products'>
+                <TableCell component="th" scope="products">
                   {product.product}
                 </TableCell>
-                <TableCell align='right' component='th' scope='products'>
+                <TableCell align="right" component="th" scope="products">
                   <EditModal product={product} />
                 </TableCell>
 
-                <TableCell align='right' component='th' scope='products'>
+                <TableCell align="right" component="th" scope="products">
                   {product.category}
                 </TableCell>
                 {product.sizes.map((size) => (
                   <>
-                    <TableCell align='right' component='th' scope='product'>
+                    <TableCell align="right" component="th" scope="product">
                       {size.quantity}
                     </TableCell>
-                    <TableCell align='right' component='th' scope='product'>
+                    <TableCell align="right" component="th" scope="product">
                       ${size.price}
                     </TableCell>
                   </>
                 ))}
                 <TableCell>
                   <CancelIcon
-                    align='right'
+                    align="right"
                     onClick={() => openHandler(product)}
                   />
                 </TableCell>

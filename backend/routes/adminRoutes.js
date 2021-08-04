@@ -6,13 +6,9 @@ const jwt = require("jsonwebtoken");
 const authMiddleware = require("./middleware");
 const path = require("path");
 const saltRounds = 10;
-<<<<<<< HEAD
 const fs = require("fs");
-=======
-const fs = require('fs');
-const ShirtProduct = require('../schema/shirtProductSchema');
-const PantProduct = require('../schema/pantProductSchema');
->>>>>>> main
+const ShirtProduct = require("../schema/shirtProductSchema");
+const PantProduct = require("../schema/pantProductSchema");
 
 router.post("/admin/login", async (req, res) => {
   const { email, password } = req.body;
@@ -29,21 +25,17 @@ router.post("/admin/login", async (req, res) => {
   res.send(error).status(400);
 });
 
-<<<<<<< HEAD
-//router.post("/admin", async (req, res) => {
-=======
-router.delete('/admin/:category/:id', authMiddleware, async (req, res) => {
+router.delete("/admin/:category/:id", authMiddleware, async (req, res) => {
   const { category, id } = req.params;
-  if (category === 'pants') {
+  if (category === "pants") {
     await PantProduct.findByIdAndRemove(id);
-    res.send('item removed').status(400);
+    res.send("item removed").status(400);
   }
   await ShirtProduct.findByIdAndRemove(id);
-  res.send('item removed').status(400);
+  res.send("item removed").status(400);
 });
 
 // router.post('/admin', async (req, res) => {
->>>>>>> main
 //   const hash = await bcrypt.genSalt(saltRounds);
 //   const hashedPassword = await bcrypt.hash("CSUSB2020/2021", hash);
 //   try {
