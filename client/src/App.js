@@ -11,6 +11,7 @@ import { loadStripe } from '@stripe/stripe-js';
 import { keys } from './keys';
 import ProductPage from './components/pages/ProductPage';
 import Admin from './components/admin/Admin';
+import { Container } from 'react-bootstrap';
 
 // Make sure to call `loadStripe` outside of a component’s render to avoid
 // recreating the `Stripe` object on every render.
@@ -27,11 +28,12 @@ const App = () => {
 
           <div>
             <NavbarComponent />
-            <Route path='/about' component={About} />
-            <Route path='/product/:category/:id' component={ProductPage} />
-            <Route path='/search/:product' component={SearchedProductPage} />
-            <Route exact path='/' component={Home} />
-
+            <Container>
+              <Route path='/about' component={About} />
+              <Route path='/product/:category/:id' component={ProductPage} />
+              <Route path='/search/:product' component={SearchedProductPage} />
+              <Route exact path='/' component={Home} />
+            </Container>
             <Elements stripe={stripePromise}>
               <Route exact path='/cart' component={Cart} />
             </Elements>

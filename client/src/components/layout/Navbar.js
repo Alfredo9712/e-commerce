@@ -10,7 +10,11 @@ const NavbarComponent = () => {
 
   return (
     <div>
-      <Navbar bg='primary' variant='dark'>
+      <Navbar
+        bg='primary'
+        variant='dark'
+        style={{ position: 'sticky', top: '0' }}
+      >
         <LinkContainer to='/'>
           <Navbar.Brand>E-Commerce</Navbar.Brand>
         </LinkContainer>
@@ -18,7 +22,7 @@ const NavbarComponent = () => {
           <LinkContainer to='/about'>
             <Nav.Link>About</Nav.Link>
           </LinkContainer>
-
+          {/* 
           <FormControl
             type='search'
             placeholder='Search'
@@ -27,10 +31,12 @@ const NavbarComponent = () => {
           />
           <LinkContainer to={`/search/${search}`}>
             <Button variant='outline-light'>Search</Button>
-          </LinkContainer>
+          </LinkContainer> */}
         </Nav>
         <Nav>
-          <Nav.Link href='/login'>Login</Nav.Link>
+          <LinkContainer to={`/admin`}>
+            <Nav.Link href='/login'>Admin Login</Nav.Link>
+          </LinkContainer>
           <LinkContainer to='/cart'>
             <Nav.Link>
               {' '}

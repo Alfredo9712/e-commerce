@@ -53,6 +53,7 @@ function Checkout() {
     );
 
     await axios.post('/api/order', {
+      amount: cartItems.reduce((accu, cur) => accu + cur.quantityPrice, 0),
       order,
       billingDetails: billingInfo,
     });
@@ -117,15 +118,12 @@ function Checkout() {
   const cardElementOptions = {
     style: {
       base: {
-        fontSize: '20px',
-        lineHeight: '35px',
-        color: 'white',
+        fontSize: '15px',
+        lineHeight: '30px',
+        border: '2px',
+        boxShadow:
+          '0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.24)',
         iconColor: 'white',
-        backgroundColor: '#011a4d',
-        '::placeholder': {
-          color: 'black',
-          backgroundColor: 'white',
-        },
       },
     },
   };
@@ -138,7 +136,11 @@ function Checkout() {
         cartItems.length > 0 && (
           <>
             {' '}
-            <Button variant='primary' onClick={() => setShow(true)}>
+            <Button
+              variant='primary'
+              style={{ marginTop: '20px' }}
+              onClick={() => setShow(true)}
+            >
               Continue to Checkout
             </Button>
             <Modal
@@ -154,7 +156,7 @@ function Checkout() {
                   </Modal.Title>
                 </Modal.Header>
                 <Row>
-                  <Col>
+                  <Col xs={12} md={6}>
                     <Modal.Body>
                       <h3>Contact information</h3>
                       <Form.Group as={Row} controlId='formHorizontalEmail'>
@@ -229,7 +231,7 @@ function Checkout() {
                             value={billingInfo.address.line1}
                             type='Address'
                             placeholder='Address'
-                            style={{ width: '250px' }}
+                            style={{ width: '250px', marginTop: '10px' }}
                           />
                         </Col>
                         <Form.Label column sm={2}>
@@ -284,36 +286,25 @@ function Checkout() {
                           />
                         </Col>
                       </Form.Group>
-                    </Modal.Body>
-                    <Modal.Body>
-                      <h3>Shipping method</h3>
-                      <Form.Check
-                        type='radio'
-                        label='Free Shipping'
-                        name='formHorizontalRadios'
-                        id='formHorizontalRadios1'
-                      />
-                      <Form.Check
-                        type='radio'
-                        label='Ground Shipping'
-                        name='formHorizontalRadios'
-                        id='formHorizontalRadios2'
-                      />
-                      <Form.Check
-                        type='radio'
-                        label='FedEx 2Day'
-                        name='formHorizontalRadios'
-                        id='formHorizontalRadios3'
-                      />
-                      <Form.Check
-                        type='radio'
-                        label='FedEx Overnight'
-                        name='formHorizontalRadios'
-                        id='formHorizontalRadios3'
-                      />
+                      <Form.Group>
+                        <h3>Payment Info</h3>
+
+                        <div
+                          style={{
+                            boxShadow:
+                              '0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.24)',
+                            borderRadius: '7px',
+                          }}
+                        >
+                          {' '}
+                          <CardElement
+                            options={cardElementOptions}
+                          ></CardElement>
+                        </div>
+                      </Form.Group>
                     </Modal.Body>
                   </Col>
-                  <Col>
+                  <Col xs={12} md={6}>
                     <Modal.Body>
                       <h3>Order Summary</h3>
                       {cartItems.map((item) => (
@@ -348,15 +339,15 @@ function Checkout() {
                       </h4>
 
                       <Button
-                        variant='danger'
+                        variant='primary'
                         onClick={submitHandler}
                         disabled={isProcessing}
                       >
                         {isProcessing ? 'Processing..' : 'checkout'}
                       </Button>
-                      <Button onClick={() => mockHandler()}>Load Data</Button>
-                      <Button onClick={() => testHandler()}>Test</Button>
-                      <CardElement></CardElement>
+                      <Button variant='dark' onClick={() => mockHandler()}>
+                        Load Data
+                      </Button>
                     </Modal.Body>
                   </Col>
                 </Row>
