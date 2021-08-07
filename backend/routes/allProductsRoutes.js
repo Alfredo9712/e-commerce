@@ -15,6 +15,7 @@ router.get("/all-products", async (req, res) => {
 });
 
 router.get("/test", authMiddleWare, async (req, res) => {
+  const id = req.admin;
   try {
     res.json(req.admin);
   } catch (error) {
@@ -28,11 +29,12 @@ router.get("/paginated-products/:start/:end", async (req, res) => {
   try {
     const shirtProducts = await ShirtProduct.find({});
     const pantProducts = await PantProduct.find({});
+    const length = [...shirtProducts, ...pantProducts].length;
     const paginatedProducts = [...shirtProducts, ...pantProducts].slice(
       start,
       end
     );
-    res.send(paginatedProducts).status(200);
+    res.json({ paginatedProducts, length }).status(200);
   } catch (error) {
     console.log(error);
   }

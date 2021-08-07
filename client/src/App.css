@@ -2,3 +2,6 @@
   width: 90%;
   max-width: none !important;
 }
+body {
+  position: relative !important;
+}
