@@ -1,6 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { Card, Button, Dropdown, Modal, Alert } from 'react-bootstrap';
+import {
+  Card,
+  Button,
+  Dropdown,
+  Modal,
+  Alert,
+  Container,
+} from 'react-bootstrap';
 import {
   addToCart,
   deleteCartItem,
@@ -39,11 +46,13 @@ const Cart = () => {
   const handleClose = () => setShow(false);
 
   return (
-    <>
-      <h3>Shopping Cart</h3>
+    <Container>
+      <h1 style={{ marginTop: '30px' }}>Shopping Cart</h1>
       {cartItems.length <= 0 && <h1>Cart is empty</h1>}
       {cartItems.length > 0 && (
-        <Button onClick={handleShow}>Delete Cart</Button>
+        <Button variant='dark' onClick={handleShow} style={{ float: 'right' }}>
+          Delete Cart
+        </Button>
       )}
       <Modal show={show} onHide={handleClose}>
         <Modal.Header closeButton>
@@ -77,7 +86,7 @@ const Cart = () => {
                   {' '}
                   Quantity:
                   <Dropdown.Toggle
-                    variant='success'
+                    variant='dark'
                     id='dropdown-basic'
                     style={{ marginLeft: '.5rem' }}
                   >
@@ -113,7 +122,7 @@ const Cart = () => {
           <Checkout />
         </>
       )}
-    </>
+    </Container>
   );
 };
 {

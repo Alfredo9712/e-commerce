@@ -62,8 +62,8 @@ const AddItem = () => {
     });
   };
   return (
-    <div style={{ marginTop: '30px' }}>
-      <h1>Add product</h1>
+    <div style={{ marginTop: '30px' }} className='addProduct'>
+      <h1>Add Product</h1>
       <Form onSubmit={sumbitHandler}>
         <Row>
           <Form.Group as={Col}>
@@ -77,7 +77,7 @@ const AddItem = () => {
           </Form.Group>
 
           <Dropdown as={Col} style={{ marginTop: '30px' }}>
-            <Dropdown.Toggle variant='success' id='dropdown-basic'>
+            <Dropdown.Toggle variant='dark' id='dropdown-basic'>
               {item.category === '' ? 'Select Category' : item.category}
             </Dropdown.Toggle>
 
@@ -95,7 +95,9 @@ const AddItem = () => {
         {item.sizes.map((size) => (
           <Row>
             <Form.Group as={Col}>
-              <Form.Label>{size.size}</Form.Label>
+              <Form.Label style={{ textTransform: 'capitalize' }}>
+                {size.size}
+              </Form.Label>
               <Form.Control
                 type='text'
                 value={size.quantity === null ? '' : size.quantity}
