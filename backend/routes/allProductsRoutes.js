@@ -1,9 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const PantProduct = require('../schema/pantProductSchema');
-const ShirtProduct = require('../schema/shirtProductSchema');
-const authMiddleWare = require('./middleware');
-router.get('/all-products', async (req, res) => {
+const PantProduct = require("../schema/pantProductSchema");
+const ShirtProduct = require("../schema/shirtProductSchema");
+const authMiddleWare = require("./middleware");
+router.get("/all-products", async (req, res) => {
   try {
     const shirtProducts = await ShirtProduct.find({});
     const pantProducts = await PantProduct.find({});
@@ -14,7 +14,7 @@ router.get('/all-products', async (req, res) => {
   }
 });
 
-router.get('/test', authMiddleWare, async (req, res) => {
+router.get("/test", authMiddleWare, async (req, res) => {
   const id = req.admin;
   try {
     res.json(req.admin);
@@ -23,7 +23,7 @@ router.get('/test', authMiddleWare, async (req, res) => {
   }
 });
 
-router.get('/paginated-products/:start/:end', async (req, res) => {
+router.get("/paginated-products/:start/:end", async (req, res) => {
   const start = parseInt(req.params.start);
   const end = parseInt(req.params.end);
   try {
