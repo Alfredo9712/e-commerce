@@ -31,7 +31,7 @@ const AdminDash = () => {
     history.push("/admin");
   };
   const { width } = useWindowDimensions();
-  console.log(width);
+
   return (
     <>
       <Router>

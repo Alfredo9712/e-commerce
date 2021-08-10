@@ -21,7 +21,7 @@ import { Button, Modal } from "react-bootstrap";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 700,
+    minWidth: 200,
   },
 });
 const AdminUpdateItem = () => {
@@ -93,7 +93,10 @@ const AdminUpdateItem = () => {
             </Modal.Footer>
           </Modal>
 
-          <TableContainer component={Paper} style={{ marginTop: "20px" }}>
+          <TableContainer
+            component={Paper}
+            style={{ marginTop: "20px", width: "90%" }}
+          >
             <Table className={classes.table} aria-label="simple table">
               <TableHead>
                 <TableRow>
