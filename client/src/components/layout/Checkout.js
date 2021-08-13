@@ -46,6 +46,8 @@ function Checkout() {
     const order = cartItems.map(
       (item) =>
         item && {
+          price: item.quantityPrice,
+          category: item.category,
           product: item.product,
           quantityPurchased: item.selectedQuantity,
           sizePurchased: item.selectedSize,
