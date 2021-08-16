@@ -3,6 +3,7 @@ const mongoose = require('mongoose');
 const orderSchema = mongoose.Schema(
   {
     amount: { type: Number, required: true },
+    complete: { type: Boolean, default: false },
     order: [
       {
         price: { type: Number, required: true },
