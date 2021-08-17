@@ -57,6 +57,7 @@ const Dashboard = () => {
   };
   useEffect(() => {
     dispatch(getMonthlyOrders(currenntYear));
+    //use state instead
     dispatch(getProducts());
   }, []);
 
@@ -84,7 +85,7 @@ const Dashboard = () => {
               width: '600px',
             }}
           >
-            <h1>Earnings</h1>
+            <h3>Order Statistics</h3>
           </Col>
           <Col
             md={'auto'}
