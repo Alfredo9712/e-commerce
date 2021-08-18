@@ -1,9 +1,9 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const Order = require('../schema/orderSchema');
-const authMiddleware = require('./middleware');
+const Order = require("../schema/orderSchema");
+const authMiddleware = require("./middleware");
 
-router.post('/order', async (req, res) => {
+router.post("/order", async (req, res) => {
   const { order, billingDetails, amount } = req.body;
   try {
     const newOrder = new Order({
@@ -12,13 +12,25 @@ router.post('/order', async (req, res) => {
       amount,
     });
     newOrder.save();
-    res.send('Order added').status(200);
+    res.send("Order added").status(200);
   } catch (error) {
     console.log(error);
   }
 });
 
-router.get('/order', async (req, res) => {
+router.put("/order/:id", async (req, res) => {
+  const _id = req.params.id;
+  // const key = req.params.key;
+  // key !== process.env.KEY && res.json({ msg: "Not authorized" }).status(400);
+  const { complete } = req.body;
+  const updatedOrder = {
+    complete,
+  };
+  await Order.updateOne({ _id }, updatedOrder);
+  res.send("Updated").status(200);
+});
+
+router.get("/order", async (req, res) => {
   const orders = await Order.find({});
   try {
     res.send(orders).status(200);
