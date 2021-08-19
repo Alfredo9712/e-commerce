@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from "react";
-import { Table, Tabs, Tab, Nav, Button } from "react-bootstrap";
-import axios from "axios";
+import React, { useState, useEffect } from 'react';
+import { Table, Tabs, Tab, Nav, Button } from 'react-bootstrap';
+import axios from 'axios';
+import Accordian from './Accordian';
 const OrderHistory = () => {
   const [orders, setOrders] = useState([]);
   const [pendingOrders, setPendingOrders] = useState([]);
   const [completeOrders, setCompleteOrders] = useState([]);
   const getOrders = async () => {
-    const response = await axios.get("/api/order");
+    const response = await axios.get('/api/order');
     setOrders(
       response.data.sort(function (x, y) {
         // true values first
@@ -20,13 +21,13 @@ const OrderHistory = () => {
   };
   const orderHandler = (filter) => {
     switch (filter) {
-      case "pending":
+      case 'pending':
         setOrders(pendingOrders);
         break;
-      case "all":
+      case 'all':
         getOrders();
         break;
-      case "complete":
+      case 'complete':
         setOrders(completeOrders);
         break;
     }
@@ -55,15 +56,15 @@ const OrderHistory = () => {
     console.log(orders);
   }, []);
   return (
-    <div style={{ marginTop: "30px" }}>
-      <h1 style={{ marginBottom: "20px" }}>Orders</h1>
-      <Tab.Container id="left-tabs-example" defaultActiveKey="first">
-        <Nav variant="pills" className="flex-row">
+    <div style={{ marginTop: '30px' }}>
+      <h1 style={{ marginBottom: '20px' }}>Orders</h1>
+      <Tab.Container id='left-tabs-example' defaultActiveKey='first'>
+        <Nav variant='pills' className='flex-row'>
           <Nav.Item>
             <Nav.Link
-              eventKey="first"
+              eventKey='first'
               onClick={() => {
-                orderHandler("all");
+                orderHandler('all');
               }}
             >
               All
@@ -71,9 +72,9 @@ const OrderHistory = () => {
           </Nav.Item>
           <Nav.Item>
             <Nav.Link
-              eventKey="second"
+              eventKey='second'
               onClick={() => {
-                orderHandler("pending");
+                orderHandler('pending');
               }}
             >
               Pending
@@ -81,9 +82,9 @@ const OrderHistory = () => {
           </Nav.Item>
           <Nav.Item>
             <Nav.Link
-              eventKey="third"
+              eventKey='third'
               onClick={() => {
-                orderHandler("complete");
+                orderHandler('complete');
               }}
             >
               Complete
@@ -91,13 +92,16 @@ const OrderHistory = () => {
           </Nav.Item>
         </Nav>
       </Tab.Container>
-      <Table size="sm" striped bordered hover style={{ marginTop: "30px" }}>
+      <Table size='sm' striped bordered hover style={{ marginTop: '30px' }}>
         <thead>
           <tr>
             <th>Order</th>
+            <th>Customer</th>
             <th>Date</th>
             <th>Status</th>
             <th>Total</th>
+            <th>Order Details</th>
+
             <th>Actions</th>
           </tr>
         </thead>
@@ -105,20 +109,24 @@ const OrderHistory = () => {
           {orders.map((order) => (
             <tr>
               <td>{order._id.slice(order._id.length - 5)}</td>
+              <td>{order.billingDetails.name}</td>
               <td>{order.createdAt.substring(0, 10)}</td>
-              <td>{order.complete === false ? "pending" : "complete"}</td>
+              <td>{order.complete === false ? 'pending' : 'complete'}</td>
               <td>${order.amount}</td>
+              <td style={{ textAlign: 'center', cursor: 'pointer' }}>
+                <Accordian />
+              </td>
               <td>
                 {order.complete === false ? (
                   <Button
-                    variant="dark"
+                    variant='dark'
                     onClick={() => confirmHandler(order._id, order.complete)}
                   >
-                    {" "}
+                    {' '}
                     Confirm
                   </Button>
                 ) : (
-                  ""
+                  ''
                 )}
               </td>
             </tr>

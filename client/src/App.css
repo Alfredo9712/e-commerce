@@ -44,10 +44,9 @@
   }
 }
 
-@media screen and (min-width: 800px) {
+@media screen and (max-width: 1051px) {
   .topCard {
-    max-width: 900px;
-
-    background-color: green;
+    flex-direction: column;
+    align-items: center;
   }
 }

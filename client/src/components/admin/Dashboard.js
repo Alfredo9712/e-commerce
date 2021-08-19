@@ -71,27 +71,48 @@ const Dashboard = () => {
         minWidth: '100%',
       }}
     >
-      {/* <Row
+      <Row
+        className='topCard'
+        style={{
+          marginTop: '30px',
+          display: 'flex',
+          justifyContent: 'space-around',
+        }}
+      >
+        <Col
           style={{
-            marginTop: '30px',
-            display: 'flex',
-            justifyContent: 'space-around',
+            boxShadow:
+              '0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.24)',
+            borderRadius: '15px',
+            maxWidth: '600px',
           }}
-        > */}
-      {/* <Col
-            xs={'auto'}
-            className='topCard'
+        >
+          <Row
             style={{
+              height: '200px',
+              backgroundColor: 'white',
               boxShadow:
                 '0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.24)',
               borderRadius: '15px',
-              width: '600px',
             }}
           >
-            <Row style={{ height: '200px' }}>
-              <h3>Order Statistics </h3>
-              <Col
+            <h3>Order Statistics </h3>
+            <Col xs={4}>
+              <div
                 style={{
+                  boxShadow:
+                    '0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.24)',
+                  borderRadius: '15px',
+
+                  background:
+                    'linear-gradient(45deg, rgba(255,245,75,1) 0%, rgba(255,189,0,1) 100%)',
+
+                  color: 'white !important',
+                  height: '90px',
+                  justifyContent: 'center',
+
+                  width: '140px',
+
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -99,9 +120,22 @@ const Dashboard = () => {
               >
                 <h5>{pendingOrders.length}</h5>
                 <h5>pending</h5>
-              </Col>
-              <Col
+              </div>
+            </Col>
+            <Col xs={4}>
+              <div
                 style={{
+                  background:
+                    'linear-gradient(45deg, rgba(27,207,138,1) 0%, rgba(0,152,141,1) 100%)',
+
+                  boxShadow:
+                    '0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.24)',
+                  borderRadius: '15px',
+                  height: '90px',
+                  justifyContent: 'center',
+
+                  width: '140px',
+
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -109,9 +143,19 @@ const Dashboard = () => {
               >
                 <h5>{completeOrders.length}</h5>
                 <h5>complete</h5>
-              </Col>
-              <Col
+              </div>
+            </Col>
+            <Col xs={4}>
+              <div
                 style={{
+                  background:
+                    'linear-gradient(45deg, rgba(0,200,255,1) 0%, rgba(25,141,255,1) 78%)',
+                  boxShadow:
+                    '0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.24)',
+                  borderRadius: '15px',
+                  height: '90px',
+                  width: '140px',
+                  justifyContent: 'center',
                   display: 'flex',
                   flexDirection: 'column',
                   alignItems: 'center',
@@ -119,142 +163,93 @@ const Dashboard = () => {
               >
                 <h5>{totalOrders}</h5>
                 <h5>Orders</h5>
-              </Col>
-            </Row>
-          </Col> */}
-
-      {/* <Col
-            xs={'auto'}
-            className='topCard'
-            style={{
-              boxShadow:
-                '0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.24)',
-              borderRadius: '15px',
-
-              width: '600px',
-            }}
-          >
-            <Row>
-              <Col xs={7}>
-                <h3 style={{ display: 'inline-block' }}>Earnings </h3>
-                <h4> total: ${earnings}</h4>
-                <h6>
-                  <FiberManualRecordIcon style={{ color: '#1B9E77' }} />
-                  pants Revenue: ${pantsEarnings}
-                </h6>
-                <h6>
-                  <FiberManualRecordIcon style={{ color: '#105b45' }} />
-                  shirts Revenue: ${shirtEarnings}
-                </h6>
-                <h3
-                  style={{ display: 'inline-block', marginTop: '20px' }}
-                  className='text-muted'
-                >
-                  {title}
-                </h3>
-              </Col>
-              <Col xs={5}>
-                <div
-                  style={{
-                    height: '200px',
-                    width: '200px',
-                  }}
-                >
-                  <ResponsivePie
-                    data={pieData}
-                    margin={{ top: 10, right: 0, bottom: 10, left: 0 }}
-                    enableArcLinkLabels={false}
-                    colors={['#105b45', '#1B9E77']}
-                    enableArcLabels={false}
-                    innerRadius={0.5}
-                    padAngle={0.7}
-                    cornerRadius={3}
-                    activeOuterRadiusOffset={8}
-                    borderWidth={1}
-                    borderColor={{
-                      from: 'color',
-                      modifiers: [['darker', 0.2]],
-                    }}
-                    arcLinkLabelsSkipAngle={10}
-                    arcLinkLabelsTextColor='#333333'
-                    arcLinkLabelsThickness={2}
-                    arcLinkLabelsColor={{ from: 'color' }}
-                    arcLabelsSkipAngle={10}
-                    arcLabelsTextColor={{
-                      from: 'color',
-                      modifiers: [['darker', 2]],
-                    }}
-                    defs={[
-                      {
-                        id: 'dots',
-                        type: 'patternDots',
-                        background: 'inherit',
-                        color: 'rgba(255, 255, 255, 0.3)',
-                        size: 4,
-                        padding: 1,
-                        stagger: true,
-                      },
-                      {
-                        id: 'lines',
-                        type: 'patternLines',
-                        background: 'inherit',
-                        color: 'rgba(255, 255, 255, 0.3)',
-                        rotation: -45,
-                        lineWidth: 6,
-                        spacing: 10,
-                      },
-                    ]}
-                  />
-                </div>
-              </Col>
-            </Row>
-          </Col> */}
-      {/* </Row> */}
-      <Row>
+              </div>
+            </Col>
+          </Row>
+        </Col>
         <Col
-          className='topCard'
           style={{
             boxShadow:
               '0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.24)',
             borderRadius: '15px',
-            // maxWidth: '600px',
+            maxWidth: '600px',
           }}
         >
-          <Row style={{ height: '200px' }}>
-            <h3>Order Statistics </h3>
-            <Col
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <h5>{pendingOrders.length}</h5>
-              <h5>pending</h5>
+          <Row>
+            <Col xs={7}>
+              <h3 style={{ display: 'inline-block' }}>Earnings </h3>
+              <h4> total: ${earnings}</h4>
+              <h6>
+                <FiberManualRecordIcon style={{ color: '#1B9E77' }} />
+                pants Revenue: ${pantsEarnings}
+              </h6>
+              <h6>
+                <FiberManualRecordIcon style={{ color: '#105b45' }} />
+                shirts Revenue: ${shirtEarnings}
+              </h6>
+              <h3
+                style={{ display: 'inline-block', marginTop: '20px' }}
+                className='text-muted'
+              >
+                {title}
+              </h3>
             </Col>
-            <Col
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <h5>{completeOrders.length}</h5>
-              <h5>complete</h5>
-            </Col>
-            <Col
-              style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              <h5>{totalOrders}</h5>
-              <h5>Orders</h5>
+            <Col xs={5}>
+              <div
+                style={{
+                  height: '200px',
+                  width: '200px',
+                }}
+              >
+                <ResponsivePie
+                  data={pieData}
+                  margin={{ top: 10, right: 0, bottom: 10, left: 0 }}
+                  enableArcLinkLabels={false}
+                  colors={['#105b45', '#1B9E77']}
+                  enableArcLabels={false}
+                  innerRadius={0.5}
+                  padAngle={0.7}
+                  cornerRadius={3}
+                  activeOuterRadiusOffset={8}
+                  borderWidth={1}
+                  borderColor={{
+                    from: 'color',
+                    modifiers: [['darker', 0.2]],
+                  }}
+                  arcLinkLabelsSkipAngle={10}
+                  arcLinkLabelsTextColor='#333333'
+                  arcLinkLabelsThickness={2}
+                  arcLinkLabelsColor={{ from: 'color' }}
+                  arcLabelsSkipAngle={10}
+                  arcLabelsTextColor={{
+                    from: 'color',
+                    modifiers: [['darker', 2]],
+                  }}
+                  defs={[
+                    {
+                      id: 'dots',
+                      type: 'patternDots',
+                      background: 'inherit',
+                      color: 'rgba(255, 255, 255, 0.3)',
+                      size: 4,
+                      padding: 1,
+                      stagger: true,
+                    },
+                    {
+                      id: 'lines',
+                      type: 'patternLines',
+                      background: 'inherit',
+                      color: 'rgba(255, 255, 255, 0.3)',
+                      rotation: -45,
+                      lineWidth: 6,
+                      spacing: 10,
+                    },
+                  ]}
+                />
+              </div>
             </Col>
           </Row>
         </Col>
-        <Col>hi</Col>
       </Row>
       <Row>
         {' '}

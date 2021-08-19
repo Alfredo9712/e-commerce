@@ -44,7 +44,10 @@ const AdminDash = () => {
               <Navbar
                 bg='primary'
                 variant='dark'
-                style={{ width: '80px', height: '100vh' }}
+                style={{
+                  width: '80px',
+                  height: '100vh',
+                }}
               >
                 <Navbar.Collapse id='navbarScroll'>
                   <Nav
