@@ -3,6 +3,9 @@ const initialState = {
   title: 2021,
   request: [],
   pieData: [],
+  pendingOrders: [],
+  totalOrders: 0,
+  completeOrders: [],
 };
 export function orderReducer(state = initialState, action) {
   switch (action.type) {
@@ -16,6 +19,9 @@ export function orderReducer(state = initialState, action) {
         earnings: action.earnings,
         shirtEarnings: action.shirtPrice,
         pantEarnings: action.pantPrice,
+        totalOrders: action.totalOrders,
+        pendingOrders: action.pendingOrders,
+        completeOrders: action.completeOrders,
       };
     case 'ORDER_AMOUNT_DAILY':
       return {
@@ -27,6 +33,9 @@ export function orderReducer(state = initialState, action) {
         earnings: action.earnings,
         shirtEarnings: action.shirtPrice,
         pantEarnings: action.pantPrice,
+        totalOrders: action.totalOrders,
+        pendingOrders: action.pendingOrders,
+        completeOrders: action.completeOrders,
       };
 
     default:

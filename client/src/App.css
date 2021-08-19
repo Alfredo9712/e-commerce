@@ -14,7 +14,6 @@
   .test {
     margin-left: auto;
     margin-right: auto;
-    transform: translate(10%, 0);
   }
 }
 @media screen and (max-width: 600px) {
@@ -42,5 +41,13 @@
 @media screen and (max-width: 925px) {
   .addProduct {
     margin-left: 20px;
+  }
+}
+
+@media screen and (min-width: 800px) {
+  .topCard {
+    max-width: 900px;
+
+    background-color: green;
   }
 }
