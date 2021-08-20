@@ -78,7 +78,25 @@ const getDailyPercentages = (month, year, orders) => {
 
   // const shirts = console.log('orders' + '' + orders);
 };
+const getDailyStats = async (month) => {
+  const response = await axios.get('/api/order');
+  const filteredMonth = response.data.filter(
+    (i) => i.createdAt.substring(6, 7) == month
+  );
+  const totalOrders = filteredMonth.length;
+  const pendingOrders = filteredMonth.filter(
+    (order) => order.complete === false
+  );
+  const completeOrders = filteredMonth.filter(
+    (order) => order.complete === true
+  );
 
+  return {
+    totalOrders,
+    pendingOrders,
+    completeOrders,
+  };
+};
 export const getDailyOrders =
   (selectedMonth, selectedYear) => async (dispatch) => {
     const filtered = daysOfMonths.filter(
@@ -104,7 +122,8 @@ export const getDailyOrders =
       }
       const { shirts, pants, earnings, shirtPrice, pantPrice } =
         getDailyPercentages(selectedMonth, selectedYear, request);
-      console.log(earnings);
+      const { totalOrders, pendingOrders, completeOrders } =
+        await getDailyStats(selectedMonth);
 
       dispatch({
         type: 'ORDER_AMOUNT_DAILY',
@@ -112,6 +131,9 @@ export const getDailyOrders =
         title: monthNames[selectedMonth - 1],
         request,
         shirtPrice,
+        totalOrders,
+        pendingOrders,
+        completeOrders,
         pantPrice,
         earnings,
         pieData: [
@@ -171,6 +193,24 @@ const getMonthlyPercentages = (year, orders) => {
   // const shirts = console.log('orders' + '' + orders);
 };
 
+export const getMonthlyOrderStats = async (year) => {
+  const response = await axios.get('/api/order');
+  const filteredYear = response.data.filter(
+    (i) => i.createdAt.substring(0, 4) == year
+  );
+  const totalOrders = filteredYear.length;
+  const pendingOrders = filteredYear.filter(
+    (order) => order.complete === false
+  );
+  const completeOrders = filteredYear.filter(
+    (order) => order.complete === true
+  );
+  return {
+    totalOrders,
+    pendingOrders,
+    completeOrders,
+  };
+};
 export const getMonthlyOrders = (selectedYear) => async (dispatch) => {
   try {
     const response = await axios('/api/order');
@@ -190,6 +230,9 @@ export const getMonthlyOrders = (selectedYear) => async (dispatch) => {
     });
     const { shirts, pants, earnings, shirtPrice, pantPrice } =
       getMonthlyPercentages(selectedYear, request);
+    const { totalOrders, pendingOrders, completeOrders } =
+      await getMonthlyOrderStats(selectedYear);
+
     dispatch({
       type: 'ORDER_AMOUNT_MONTHLY',
       payload: [{ id: 'revenue', data }],
@@ -210,6 +253,9 @@ export const getMonthlyOrders = (selectedYear) => async (dispatch) => {
           value: pants ? pants : 0,
         },
       ],
+      totalOrders,
+      pendingOrders,
+      completeOrders,
     });
   } catch (err) {
     console.log(err);

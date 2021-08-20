@@ -40,11 +40,14 @@ const AdminDash = () => {
       <Router>
         <div style={{ display: 'flex' }}>
           <div style={{ flex: '.1' }}>
-            {width > 700 ? (
+            {width > 800 ? (
               <Navbar
                 bg='primary'
                 variant='dark'
-                style={{ width: '80px', height: '100vh' }}
+                style={{
+                  width: '80px',
+                  height: '100vh',
+                }}
               >
                 <Navbar.Collapse id='navbarScroll'>
                   <Nav
