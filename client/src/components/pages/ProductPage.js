@@ -1,6 +1,6 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Row,
   Col,
@@ -9,20 +9,20 @@ import {
   Spinner,
   Dropdown,
   Alert,
-} from "react-bootstrap";
-import { useParams } from "react-router-dom";
-import { addToCart } from "../../actions/cartActions";
-import uuid from "react-uuid";
+} from 'react-bootstrap';
+import { useParams } from 'react-router-dom';
+import { addToCart } from '../../actions/cartActions';
+import uuid from 'react-uuid';
 
 const ProductPage = () => {
   const [productItem, setProductItem] = useState({});
-  const [variant, setVariant] = useState("");
-  const [text, setText] = useState("");
+  const [variant, setVariant] = useState('');
+  const [text, setText] = useState('');
   const [popup, setPopup] = useState(false);
   const [itemPrice, setPrice] = useState(null);
   const [sizeIndex, setSizeIndex] = useState(0);
   const [selectedQuantity, setSelectedQuantity] = useState(0);
-  const [selectedSize, setSelectedSize] = useState("");
+  const [selectedSize, setSelectedSize] = useState('');
   const [originalQuantity, setOriginalQuantity] = useState(0);
 
   const dispatch = useDispatch();
@@ -45,24 +45,24 @@ const ProductPage = () => {
     setOriginalQuantity(quantity);
   };
   const addToCartHandler = (productItem) => {
-    if (selectedSize === "") {
+    if (selectedSize === '') {
       setPopup(true);
-      setText("Please select a size");
-      setVariant("danger");
+      setText('Please select a size');
+      setVariant('danger');
       setTimeout(function () {
         setPopup(false);
-        setText("");
-        setVariant("");
+        setText('');
+        setVariant('');
       }, 3000);
       return;
     }
     if (selectedQuantity === 0) {
       setPopup(true);
-      setText("Please select a quantity");
-      setVariant("danger");
+      setText('Please select a quantity');
+      setVariant('danger');
       setTimeout(function () {
-        setText("");
-        setVariant("");
+        setText('');
+        setVariant('');
         setPopup(false);
       }, 3000);
       return;
@@ -82,11 +82,11 @@ const ProductPage = () => {
     };
     dispatch(addToCart(itemToCart));
     setPopup(true);
-    setText("Added to cart");
-    setVariant("success");
+    setText('Added to cart');
+    setVariant('success');
     setTimeout(function () {
-      setText("");
-      setVariant("");
+      setText('');
+      setVariant('');
       setPopup(false);
     }, 3000);
   };
@@ -96,21 +96,30 @@ const ProductPage = () => {
   }, []);
   const { product, image, sizes } = productItem;
   return (
-    <div className="main">
+    <div className='main'>
       {popup && <Alert variant={variant}>{text}</Alert>}
 
       {loading ? (
-        <Spinner animation="border" />
+        <Spinner animation='border' />
       ) : (
         <Row>
-          <Col>
-            <img width="500px" height="500px" src={image} />
+          <Col md={'auto'}>
+            <img width='600px' height='600px' src={image} />
           </Col>
-          <Col>
-            <h1>ID: {id} </h1>
-            <h1>category: {category} </h1>
-            <h1>product: {product}</h1>
-            <p>
+          <Col md={'auto'}>
+            <h1>{product}</h1>
+            <h6>Product ID #{id}</h6>
+            <h1 style={{ marginTop: '15px' }}>
+              {itemPrice ? (
+                <h1>${itemPrice} </h1>
+              ) : (
+                <h1>
+                  ${sizes[0].price}-{sizes[2].price}
+                </h1>
+              )}
+            </h1>
+
+            <p style={{ marginTop: '15px' }}>
               <h1>Quantity</h1>
               {sizes.map((size, index) =>
                 size.quantity > 0 ? (
@@ -126,6 +135,7 @@ const ProductPage = () => {
                       }
                       id={`tbg-btn-${index + 1}`}
                       value={index + 1}
+                      style={{ marginRight: '5px' }}
                     >
                       {size.size}
                     </Button>
@@ -138,7 +148,7 @@ const ProductPage = () => {
 
             <>
               <Dropdown>
-                <Dropdown.Toggle variant="success" id="dropdown-basic">
+                <Dropdown.Toggle variant='success' id='dropdown-basic'>
                   Quantity: {selectedSize}
                 </Dropdown.Toggle>
 
@@ -157,7 +167,10 @@ const ProductPage = () => {
             </>
 
             <p>
-              <Button onClick={() => addToCartHandler(productItem)}>
+              <Button
+                onClick={() => addToCartHandler(productItem)}
+                style={{ marginTop: '15px' }}
+              >
                 Add To Cart
               </Button>
             </p>
