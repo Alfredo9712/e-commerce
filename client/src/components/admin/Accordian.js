@@ -4,7 +4,7 @@ import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 
 const Accordian = () => {
   return (
-    <Accordion style={{ maxWidth: '300px' }}>
+    <Accordion style={{ maxWidth: '800px' }}>
       <Card>
         <Card.Header>
           <Accordion.Toggle as={Button} variant='link' eventKey='0'>
