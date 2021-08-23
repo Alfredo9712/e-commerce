@@ -48,6 +48,9 @@ const Home = () => {
               }}
             >
               <Nav.Link>hi</Nav.Link>
+              <Nav.Link>hi</Nav.Link>
+
+              <Nav.Link>hi</Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

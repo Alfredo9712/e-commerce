@@ -104,7 +104,12 @@ const ProductPage = () => {
       ) : (
         <Row>
           <Col md={'auto'}>
-            <img width='600px' height='600px' src={image} />
+            <img
+              className='productImg'
+              width='600px'
+              height='600px'
+              src={image}
+            />
           </Col>
           <Col md={'auto'}>
             <h1>{product}</h1>
