@@ -92,8 +92,8 @@ const AddItem = () => {
           </Dropdown>
         </Row>
 
-        {item.sizes.map((size) => (
-          <Row>
+        {item.sizes.map((size, index) => (
+          <Row key={index}>
             <Form.Group as={Col}>
               <Form.Label style={{ textTransform: 'capitalize' }}>
                 {size.size}
@@ -101,7 +101,7 @@ const AddItem = () => {
               <Form.Control
                 type='text'
                 value={size.quantity === null ? '' : size.quantity}
-                placeholder='Enter quantity for small'
+                placeholder={`Enter quantity for ${size.size}`}
                 onChange={(e) =>
                   quantityHandler(Number(e.target.value), size.size)
                 }
@@ -111,8 +111,8 @@ const AddItem = () => {
             <Form.Group as={Col}>
               <Form.Label>Price for {size.size}</Form.Label>
               <Form.Control
-                type='number'
-                placeholder='Enter price for medium'
+                type='text'
+                placeholder={`Enter price for ${size.size}`}
                 value={size.price === null ? '' : size.price}
                 onChange={(e) =>
                   priceHandler(Number(e.target.value), size.size)

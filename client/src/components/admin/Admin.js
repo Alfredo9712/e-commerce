@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Button, Container } from 'react-bootstrap';
+import { Form, Button, Container, Navbar, Nav } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { adminLogin } from '../../actions/adminActions';
 import { Alert } from 'react-bootstrap';
 import AdminDash from './AdminDash';
 import ErrorComponent from '../pages/ErrorComponent';
+import HomeIcon from '@material-ui/icons/Home';
+import { LinkContainer } from 'react-router-bootstrap';
 const Admin = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -38,6 +40,21 @@ const Admin = () => {
             height: '100vh',
           }}
         >
+          <Navbar bg='dark' variant='dark'>
+            <Container>
+              <Nav className='me-auto'>
+                <LinkContainer to='/'>
+                  <Nav.Link style={{ display: 'flex' }}>
+                    {' '}
+                    <HomeIcon
+                      style={{ fontSize: '30px', paddingBottom: '7.5px' }}
+                    />{' '}
+                    <span style={{ fontSize: '15px' }}>Home</span>
+                  </Nav.Link>
+                </LinkContainer>
+              </Nav>
+            </Container>
+          </Navbar>
           <Container
             style={{
               maxWidth: '35%',

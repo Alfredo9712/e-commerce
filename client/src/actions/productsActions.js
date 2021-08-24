@@ -28,14 +28,30 @@ export const getShirts = () => async (dispatch) => {
     });
   } catch (err) {}
 };
+export const getPants = () => async (dispatch) => {
+  try {
+    const res = await axios.get('http://localhost:5000/api/pants');
+    const data = [...res.data];
 
-export const filterProducts = (search) => async (dispatch) => {
-  const res = await axios.get('http://localhost:5000/api/all-products');
-  const data = [...res.data];
-  const filteredProduct = data.filter((product) => product.category === search);
+    dispatch({
+      type: 'GET_PANTS',
+      payload: data,
+    });
+  } catch (err) {}
+};
+
+export const filterProducts = (matches) => async (dispatch) => {
+  // const res = await axios.get('http://localhost:5000/api/all-products');
+  // const data = [...res.data];
+  // // const SHIRTS = 'shirts'
+  // // const PANTS = 'pants'
+
+  // const filteredCategory = data.filter(
+  //   (product) => product.category === text || product.product === text
+  // );
   dispatch({
     type: 'FILTER_PRODUCTS',
-    payload: filteredProduct,
+    payload: matches,
   });
 };
 

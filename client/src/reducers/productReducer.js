@@ -13,6 +13,11 @@ export function productReducer(state = initialState, action) {
         ...state,
         data: action.payload,
       };
+    case 'GET_PANTS':
+      return {
+        ...state,
+        data: action.payload,
+      };
     case 'FILTER_PRODUCTS':
       return {
         ...state,

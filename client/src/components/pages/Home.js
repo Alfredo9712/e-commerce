@@ -1,7 +1,11 @@
 import React, { useEffect } from 'react';
 
 import { useSelector, useDispatch } from 'react-redux';
-import { getProducts, getShirts } from '../../actions/productsActions';
+import {
+  getProducts,
+  getShirts,
+  getPants,
+} from '../../actions/productsActions';
 import { Link } from 'react-router-dom';
 import {
   Navbar,
@@ -16,6 +20,11 @@ import {
 const Home = () => {
   const dispatch = useDispatch();
   const products = useSelector((state) => state.product.data);
+
+  const loadPants = () => {
+    dispatch(getPants());
+  };
+
   const loadShirts = () => {
     dispatch(getShirts());
   };
@@ -47,17 +56,26 @@ const Home = () => {
                 marginTop: '-650px',
               }}
             >
-              <Nav.Link>hi</Nav.Link>
-              <Nav.Link>hi</Nav.Link>
+              <Nav.Link style={{ pointerEvents: 'none' }}>
+                <h5>Category</h5>
+              </Nav.Link>
+              <Nav.Link onClick={loadShirts}>
+                <h6>Shirts</h6>
+              </Nav.Link>
+              <Nav.Link onClick={loadPants}>
+                <h6>Pants</h6>
+              </Nav.Link>
 
-              <Nav.Link>hi</Nav.Link>
+              <Nav.Link onClick={loadAll}>
+                <h6>All</h6>
+              </Nav.Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>
       </Row>
       <Row style={{ flex: '.8' }}>
         {products.map((product) => (
-          <Col md={'auto'}>
+          <Col md={'auto'} key={product._id} className='smallRow'>
             <div key={product._id}>
               <Card style={{ width: '16rem', marginTop: '30px' }}>
                 <Link to={`/product/${product.category}/${product._id}`}>
@@ -80,8 +98,6 @@ const Home = () => {
           </Col>
         ))}
       </Row>
-      {/* <button onClick={loadShirts}>Load Shirts</button>{' '}
-      <button onClick={loadAll}>Load All Again</button>{' '} */}
     </div>
   );
 };
