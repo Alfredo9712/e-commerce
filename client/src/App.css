@@ -1,7 +1,3 @@
-.main {
-  padding-top: 70px;
-}
-
 .modal-90w {
   width: 90% !important;
   max-width: none !important;
@@ -52,5 +48,24 @@
   .topCard {
     flex-direction: column;
     align-items: center;
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .productImg {
+    height: 400px;
+    width: 400px;
+  }
+}
+.search {
+  display: block;
+  text-align: center;
+}
+.main {
+  margin-top: '20px';
+}
+@media screen and (max-width: 780px) {
+  .smallRow {
+    margin-left: 100px;
   }
 }

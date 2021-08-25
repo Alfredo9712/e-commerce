@@ -292,6 +292,7 @@ const Dashboard = () => {
 
                     {months.map((month, index) => (
                       <Dropdown.Item
+                        key={index}
                         onClick={() => {
                           monthHandler(index + 1);
                         }}

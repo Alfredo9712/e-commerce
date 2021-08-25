@@ -1,5 +1,5 @@
 import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, Fragment } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Row,
@@ -34,7 +34,6 @@ const ProductPage = () => {
       `http://localhost:5000/api/${category}/${id}`
     );
     const data = request.data;
-    console.log(data);
     setProductItem(data);
     setLoading(false);
   };
@@ -96,35 +95,39 @@ const ProductPage = () => {
   }, []);
   const { product, image, sizes } = productItem;
   return (
-    <div className='main'>
+    <div style={{ marginTop: '30px' }}>
       {popup && <Alert variant={variant}>{text}</Alert>}
 
       {loading ? (
         <Spinner animation='border' />
       ) : (
         <Row>
-          <Col md={'auto'}>
-            <img width='600px' height='600px' src={image} />
+          <Col md={7}>
+            <img
+              className='productImg'
+              width='600px'
+              height='600px'
+              src={image}
+            />
           </Col>
-          <Col md={'auto'}>
-            <h1>{product}</h1>
-            <h6>Product ID #{id}</h6>
-            <h1 style={{ marginTop: '15px' }}>
-              {itemPrice ? (
-                <h1>${itemPrice} </h1>
-              ) : (
-                <h1>
-                  ${sizes[0].price}-{sizes[2].price}
-                </h1>
-              )}
-            </h1>
+          <Col md={5}>
+            <h1 style={{ color: '#565959' }}>{product}</h1>
 
-            <p style={{ marginTop: '15px' }}>
-              <h1>Quantity</h1>
+            {itemPrice ? (
+              <h1 style={{ marginTop: '15px' }}>${itemPrice} </h1>
+            ) : (
+              <h1 style={{ marginTop: '15px' }}>
+                ${sizes[0].price}-{sizes[2].price}
+              </h1>
+            )}
+
+            <div style={{ marginTop: '15px' }}>
+              <h1>Size : {selectedSize}</h1>
               {sizes.map((size, index) =>
                 size.quantity > 0 ? (
-                  <>
+                  <Fragment key={index}>
                     <Button
+                      variant='outline-primary'
                       onClick={() =>
                         changeIndexHandler(
                           size.size,
@@ -135,26 +138,27 @@ const ProductPage = () => {
                       }
                       id={`tbg-btn-${index + 1}`}
                       value={index + 1}
-                      style={{ marginRight: '5px' }}
+                      style={{ marginRight: '5px', width: '150px' }}
                     >
                       {size.size}
                     </Button>
-                  </>
+                  </Fragment>
                 ) : (
                   <Button disabled>{size.size}</Button>
                 )
               )}
-            </p>
+            </div>
 
             <>
-              <Dropdown>
-                <Dropdown.Toggle variant='success' id='dropdown-basic'>
-                  Quantity: {selectedSize}
+              <Dropdown style={{ marginTop: '15px' }}>
+                <Dropdown.Toggle variant='dark' id='dropdown-basic'>
+                  Quantity: {selectedQuantity}
                 </Dropdown.Toggle>
 
                 <Dropdown.Menu>
                   {[...Array(sizes[sizeIndex].quantity)].map((x, i) => (
                     <Dropdown.Item
+                      key={i}
                       onClick={(e) =>
                         setSelectedQuantity(Number(e.target.textContent))
                       }
@@ -169,7 +173,9 @@ const ProductPage = () => {
             <p>
               <Button
                 onClick={() => addToCartHandler(productItem)}
+                variant='primary'
                 style={{ marginTop: '15px' }}
+                block
               >
                 Add To Cart
               </Button>

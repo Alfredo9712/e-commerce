@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { getProducts, deleteProduct } from "../../actions/productsActions";
-import TextField from "@material-ui/core/TextField";
-import axios from "axios";
-import { Pagination } from "@material-ui/lab";
-import CancelIcon from "@material-ui/icons/Cancel";
-import EditModal from "./EditModal";
-import { paginateProducts } from "../../actions/productsActions";
+import React, { useEffect, useState, Fragment } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { getProducts, deleteProduct } from '../../actions/productsActions';
+import TextField from '@material-ui/core/TextField';
+import axios from 'axios';
+import { Pagination } from '@material-ui/lab';
+import CancelIcon from '@material-ui/icons/Cancel';
+import EditModal from './EditModal';
+import { paginateProducts } from '../../actions/productsActions';
 import {
   Table,
   TableBody,
@@ -16,8 +16,8 @@ import {
   TableRow,
   Paper,
   makeStyles,
-} from "@material-ui/core";
-import { Button, Modal } from "react-bootstrap";
+} from '@material-ui/core';
+import { Button, Modal } from 'react-bootstrap';
 
 const useStyles = makeStyles({
   table: {
@@ -41,10 +41,8 @@ const AdminUpdateItem = () => {
 
   const pageHandler = (event, value) => {
     setPage(value);
-
     setStart(limit * value - pattern - 1);
     setEnd(limit * value - pattern + limit - 1);
-    console.log(products);
   };
 
   const fetchProducts = async () => {
@@ -76,7 +74,7 @@ const AdminUpdateItem = () => {
       {products.length > limit ? (
         <h1>loading</h1>
       ) : (
-        <div style={{ marginTop: "30px" }}>
+        <div style={{ marginTop: '30px' }}>
           <h1>Edit Products</h1>
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -86,10 +84,10 @@ const AdminUpdateItem = () => {
               Are you sure you want to remove {product?.product}
             </Modal.Body>
             <Modal.Footer>
-              <Button variant="secondary" onClick={handleClose}>
+              <Button variant='secondary' onClick={handleClose}>
                 Close
               </Button>
-              <Button variant="danger" onClick={deleteHandler}>
+              <Button variant='danger' onClick={deleteHandler}>
                 Delete
               </Button>
             </Modal.Footer>
@@ -97,47 +95,47 @@ const AdminUpdateItem = () => {
 
           <TableContainer
             component={Paper}
-            style={{ marginTop: "20px", width: "90%" }}
+            style={{ marginTop: '20px', width: '90%' }}
           >
-            <Table className={classes.table} aria-label="simple table">
+            <Table className={classes.table} aria-label='simple table'>
               <TableHead>
                 <TableRow>
                   <TableCell>Product</TableCell>
-                  <TableCell align="right">Edit</TableCell>
-                  <TableCell align="right">Category</TableCell>
-                  <TableCell align="right">Quantity(S)</TableCell>
-                  <TableCell align="right">Price(S)</TableCell>
-                  <TableCell align="right">Quantity(M)</TableCell>
-                  <TableCell align="right">Price(M)</TableCell>
-                  <TableCell align="right">Quantity(L)</TableCell>
-                  <TableCell align="right">Price(L)</TableCell>
-                  <TableCell align="right">Delete</TableCell>
+                  <TableCell align='right'>Edit</TableCell>
+                  <TableCell align='right'>Category</TableCell>
+                  <TableCell align='right'>Quantity(S)</TableCell>
+                  <TableCell align='right'>Price(S)</TableCell>
+                  <TableCell align='right'>Quantity(M)</TableCell>
+                  <TableCell align='right'>Price(M)</TableCell>
+                  <TableCell align='right'>Quantity(L)</TableCell>
+                  <TableCell align='right'>Price(L)</TableCell>
+                  <TableCell align='right'>Delete</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
                 {products?.map((product) => (
                   <TableRow key={product._id}>
-                    <TableCell component="th" scope="products">
+                    <TableCell component='th' scope='products'>
                       {product.product}
                     </TableCell>
-                    <TableCell align="right" component="th" scope="products">
+                    <TableCell align='right' component='th' scope='products'>
                       <EditModal product={product} />
                     </TableCell>
 
-                    <TableCell align="right" component="th" scope="products">
+                    <TableCell align='right' component='th' scope='products'>
                       {product.category}
                     </TableCell>
-                    {product.sizes.map((size) => (
-                      <>
-                        <TableCell align="right" component="th" scope="product">
+                    {product.sizes.map((size, index) => (
+                      <Fragment key={index}>
+                        <TableCell align='right' component='th' scope='product'>
                           {size.quantity}
                         </TableCell>
-                        <TableCell align="right" component="th" scope="product">
+                        <TableCell align='right' component='th' scope='product'>
                           ${size.price}
                         </TableCell>
-                      </>
+                      </Fragment>
                     ))}
-                    <TableCell align="right">
+                    <TableCell align='right'>
                       <CancelIcon onClick={() => openHandler(product)} />
                     </TableCell>
                   </TableRow>

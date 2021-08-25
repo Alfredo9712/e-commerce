@@ -71,10 +71,10 @@ const EditModal = ({ product }) => {
               </Dropdown.Menu>
             </Dropdown>
           </Row>
-          {item.sizes.map((size) => (
-            <Row>
+          {item.sizes.map((size, index) => (
+            <Row key={index}>
               <Form.Group as={Col}>
-                <Form.Label>{size.size}</Form.Label>
+                <Form.Label>Quantity for {size.size}</Form.Label>
                 <Form.Control
                   type='text'
                   value={size.quantity === null ? '' : size.quantity}
@@ -88,7 +88,7 @@ const EditModal = ({ product }) => {
               <Form.Group as={Col}>
                 <Form.Label>Price for {size.size}</Form.Label>
                 <Form.Control
-                  type='number'
+                  type='text'
                   placeholder='Enter price for medium'
                   value={size.price === null ? '' : size.price}
                   onChange={(e) =>
@@ -102,7 +102,6 @@ const EditModal = ({ product }) => {
             <Form.Label>Upload product photo</Form.Label>
             <ImageComponent setItem={setItem} item={item} />
           </Form.Group>
-          <Button>Submit</Button>
         </Modal.Body>
         <Modal.Footer>
           <Button variant='secondary' onClick={handleClose}>
