@@ -1,21 +1,20 @@
-import React, { useState } from 'react';
-import { Row, Col, Button, Form, Dropdown } from 'react-bootstrap';
-import axios from 'axios';
-import filebase64 from 'react-file-base64';
-import fs from 'browserify-fs';
+import React, { useState } from "react";
+import { Row, Col, Button, Form, Dropdown, Alert } from "react-bootstrap";
+import axios from "axios";
 
-import ImageComponent from './ImageComponent';
+import ImageComponent from "./ImageComponent";
 const AddItem = () => {
-  const token = localStorage.getItem('token');
-
+  const token = localStorage.getItem("token");
+  const [error, setError] = useState(false);
+  const [confirm, setConfirm] = useState(false);
   const [item, setItem] = useState({
-    product: '',
-    category: '',
-    image: '',
+    product: "",
+    category: "",
+    image: "",
     sizes: [
-      { size: 'small', quantity: null, price: null },
-      { size: 'medium', quantity: null, price: null },
-      { size: 'large', quantity: null, price: null },
+      { size: "small", quantity: null, price: null },
+      { size: "medium", quantity: null, price: null },
+      { size: "large", quantity: null, price: null },
     ],
   });
   const quantityHandler = (newItem, size) => {
@@ -31,54 +30,72 @@ const AddItem = () => {
     setItem({ ...item, sizes: updateSizes });
   };
   const sumbitHandler = async (e) => {
-    const { category, product, image, sizes } = item;
-    const config = {
-      headers: {
-        'x-auth-token': token,
-      },
-    };
-    e.preventDefault();
-    const response = await axios.post(
-      `/api/${category}`,
-      {
-        category,
-        product,
-        image,
-        sizes,
-      },
-      config
-    );
-    console.log(response.data);
-
-    setItem({
-      product: '',
-      category: '',
-      image: '',
-      sizes: [
-        { size: 'small', quantity: null, price: null },
-        { size: 'medium', quantity: null, price: null },
-        { size: 'large', quantity: null, price: null },
-      ],
+    item.sizes.forEach((i) => {
+      i.quantity || (i.price === null && setError(true));
     });
+    setTimeout(() => {
+      setError(false);
+    }, 2000);
+    if (item.product === "" || item.category === "" || item.image === "") {
+      setError(true);
+      setTimeout(() => {
+        setError(false);
+      }, 2000);
+    } else {
+      const { category, product, image, sizes } = item;
+      const config = {
+        headers: {
+          "x-auth-token": token,
+        },
+      };
+      e.preventDefault();
+      const response = await axios.post(
+        `/api/${category}`,
+        {
+          category,
+          product,
+          image,
+          sizes,
+        },
+        config
+      );
+      setConfirm(true);
+      setTimeout(() => {
+        setConfirm(false);
+      }, 2000);
+
+      setItem({
+        product: "",
+        category: "",
+        image: "",
+        sizes: [
+          { size: "small", quantity: null, price: null },
+          { size: "medium", quantity: null, price: null },
+          { size: "large", quantity: null, price: null },
+        ],
+      });
+    }
   };
   return (
-    <div style={{ marginTop: '30px' }} className='addProduct'>
+    <div style={{ marginTop: "30px" }} className="addProduct">
       <h1>Add Product</h1>
-      <Form onSubmit={sumbitHandler}>
+      {error && <Alert variant="warning"> Please enter all fields</Alert>}
+      {confirm && <Alert variant="success"> Item Added</Alert>}
+      <Form onSubmit={sumbitHandler} style={{ marginTop: "40px" }}>
         <Row>
           <Form.Group as={Col}>
             <Form.Label>Product Name</Form.Label>
             <Form.Control
-              type='text'
+              type="text"
               value={item.product}
-              placeholder='Enter Product Name'
+              placeholder="Enter Product Name"
               onChange={(e) => setItem({ ...item, product: e.target.value })}
             />
           </Form.Group>
 
-          <Dropdown as={Col} style={{ marginTop: '30px' }}>
-            <Dropdown.Toggle variant='dark' id='dropdown-basic'>
-              {item.category === '' ? 'Select Category' : item.category}
+          <Dropdown as={Col} style={{ marginTop: "30px" }}>
+            <Dropdown.Toggle variant="dark" id="dropdown-basic">
+              {item.category === "" ? "Select Category" : item.category}
             </Dropdown.Toggle>
 
             <Dropdown.Menu
@@ -95,12 +112,12 @@ const AddItem = () => {
         {item.sizes.map((size, index) => (
           <Row key={index}>
             <Form.Group as={Col}>
-              <Form.Label style={{ textTransform: 'capitalize' }}>
+              <Form.Label style={{ textTransform: "capitalize" }}>
                 {size.size}
               </Form.Label>
               <Form.Control
-                type='text'
-                value={size.quantity === null ? '' : size.quantity}
+                type="text"
+                value={size.quantity === null ? "" : size.quantity}
                 placeholder={`Enter quantity for ${size.size}`}
                 onChange={(e) =>
                   quantityHandler(Number(e.target.value), size.size)
@@ -111,9 +128,9 @@ const AddItem = () => {
             <Form.Group as={Col}>
               <Form.Label>Price for {size.size}</Form.Label>
               <Form.Control
-                type='text'
+                type="text"
                 placeholder={`Enter price for ${size.size}`}
-                value={size.price === null ? '' : size.price}
+                value={size.price === null ? "" : size.price}
                 onChange={(e) =>
                   priceHandler(Number(e.target.value), size.size)
                 }
@@ -128,7 +145,9 @@ const AddItem = () => {
         <ImageComponent setItem={setItem} item={item} />
       </Form.Group>
 
-      <Button onClick={sumbitHandler}>Submit</Button>
+      <Button onClick={sumbitHandler} style={{ marginTop: "20px" }}>
+        Submit
+      </Button>
     </div>
   );
 };

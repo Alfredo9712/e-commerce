@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import {
   Navbar,
   Nav,
@@ -9,14 +9,13 @@ import {
   Button,
   Badge,
   Alert,
-} from 'react-bootstrap';
-import axios from 'axios';
-import { filterProducts, getProducts } from '../../actions/productsActions';
-import Autocomplete from '@material-ui/lab/Autocomplete';
-import TextField from '@material-ui/core/TextField';
+} from "react-bootstrap";
+import axios from "axios";
+import { filterProducts, getProducts } from "../../actions/productsActions";
 
+import SearchIcon from "@material-ui/icons/Search";
 const SearchedProductPage = () => {
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [error, setError] = useState(false);
   const [data, setData] = useState([]);
   const [matches, setMatches] = useState([]);
@@ -24,7 +23,7 @@ const SearchedProductPage = () => {
   const dispatch = useDispatch();
   // const products = useSelector((state) => state.product.data);
   const getClientProducts = async () => {
-    const request = await axios('/api/all-products');
+    const request = await axios("/api/all-products");
     setData(request.data);
   };
   useEffect(() => {
@@ -41,7 +40,7 @@ const SearchedProductPage = () => {
     } else {
       setMatches(
         data.filter((product) => {
-          const regex = new RegExp(`^${text}`, 'gi');
+          const regex = new RegExp(`^${text}`, "gi");
           return product.product.match(regex) || product.category.match(regex);
         })
       );
@@ -58,7 +57,7 @@ const SearchedProductPage = () => {
       return;
     }
     if (search.length === 0) {
-      alert('type in something bru');
+      alert("type in something bru");
     } else {
       getClientProducts();
 
@@ -67,17 +66,16 @@ const SearchedProductPage = () => {
   };
   return (
     <Form onSubmit={(e) => searchHandler(e)}>
-      <div>
-        {error && <Alert variant='warning'>Product not found</Alert>}
+      {error && <Alert variant="warning">Product not found</Alert>}
 
-        <FormControl
-          style={{ width: 700, borderRadius: '20px' }}
-          type='text'
-          placeholder='search...'
-          value={search}
-          onChange={(e) => filterHandler(e.target.value)}
-        />
-      </div>
+      <FormControl
+        style={{ width: 700, borderRadius: "20px" }}
+        className="searchBar"
+        type="text"
+        placeholder="search..."
+        value={search}
+        onChange={(e) => filterHandler(e.target.value)}
+      />
     </Form>
   );
 };

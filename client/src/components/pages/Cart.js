@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React, { useEffect, useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import {
   Card,
   Button,
@@ -9,14 +9,14 @@ import {
   Row,
   Col,
   Container,
-} from 'react-bootstrap';
+} from "react-bootstrap";
 import {
   addToCart,
   deleteCartItem,
   deleteCart,
-} from '../../actions/cartActions';
-import { Link } from 'react-router-dom';
-import Checkout from '../layout/Checkout';
+} from "../../actions/cartActions";
+import { Link } from "react-router-dom";
+import Checkout from "../layout/Checkout";
 
 const Cart = () => {
   const cartItems = useSelector((state) => state.cart.data);
@@ -48,12 +48,13 @@ const Cart = () => {
   const handleClose = () => setShow(false);
 
   return (
-    <Container>
+    <Container className="main">
       <Row>
-        <Col md={8}>
-          {cartItems.length <= 0 && <h1>Cart is empty</h1>}
-
-          <h1 style={{ marginTop: '30px' }}>Shopping Cart</h1>
+        <Col md={9}>
+          <h1>Shopping Cart</h1>
+          {cartItems.length <= 0 && (
+            <h4 style={{ marginTop: "30px" }}>Cart is empty</h4>
+          )}
 
           <Modal show={show} onHide={handleClose}>
             <Modal.Header closeButton>
@@ -63,35 +64,35 @@ const Cart = () => {
               Are you sure you want to Delete all cart items
             </Modal.Body>
             <Modal.Footer>
-              <Button variant='secondary' onClick={handleClose}>
+              <Button variant="secondary" onClick={handleClose}>
                 Cancel
               </Button>
-              <Button variant='danger' onClick={deleteCartHandler}>
+              <Button variant="danger" onClick={deleteCartHandler}>
                 Confirm Delete
               </Button>
             </Modal.Footer>
           </Modal>
-          {deleted && <Alert variant='danger'>Item was Deleted</Alert>}
+          {deleted && <Alert variant="danger">Item was Deleted</Alert>}
 
           <div>
             {cartItems.map((cartItem) => (
-              <Card style={{ width: '18rem' }} key={cartItem.id}>
-                <Card.Body style={{ display: 'flex' }}>
-                  <Card.Img variant='top' src={cartItem.image} />
-                  <Card.Body style={{ marginLeft: '.5em' }}>
-                    <Card.Title style={{ width: '10rem' }}>
+              <Card style={{ width: "18rem" }} key={cartItem.id}>
+                <Card.Body style={{ display: "flex" }}>
+                  <Card.Img variant="top" src={cartItem.image} />
+                  <Card.Body style={{ marginLeft: ".5em" }}>
+                    <Card.Title style={{ width: "10rem" }}>
                       {cartItem.product}
                     </Card.Title>
                     <Card.Title>
                       Size: {cartItem.selectedSize.toUpperCase().slice(0, 1)}
                     </Card.Title>
-                    <Dropdown style={{ marginTop: '-.5em' }}>
-                      {' '}
+                    <Dropdown style={{ marginTop: "-.5em" }}>
+                      {" "}
                       Quantity:
                       <Dropdown.Toggle
-                        variant='dark'
-                        id='dropdown-basic'
-                        style={{ marginLeft: '.5rem' }}
+                        variant="dark"
+                        id="dropdown-basic"
+                        style={{ marginLeft: ".5rem" }}
                       >
                         {cartItem.selectedQuantity}
                       </Dropdown.Toggle>
@@ -127,14 +128,10 @@ const Cart = () => {
             </>
           )}
         </Col>
-        <Col md={4}>
-          {' '}
+        <Col md={3}>
+          {" "}
           {cartItems.length > 0 && (
-            <Button
-              variant='dark'
-              onClick={handleShow}
-              style={{ marginTop: '30px' }}
-            >
+            <Button variant="dark" onClick={handleShow}>
               Delete Cart
             </Button>
           )}
