@@ -7,6 +7,12 @@ const AddItem = () => {
   const token = localStorage.getItem("token");
   const [error, setError] = useState(false);
   const [confirm, setConfirm] = useState(false);
+  const [image, setImage] = useState("");
+
+  const [file, setFile] = useState();
+
+  const types = ["image/png", "image/jpeg"];
+
   const [item, setItem] = useState({
     product: "",
     category: "",
@@ -23,6 +29,32 @@ const AddItem = () => {
     );
     setItem({ ...item, sizes: updateSizes });
   };
+  const uploader = async (event) => {
+    const selected = event.target.files[0];
+    if (selected && types.includes(selected.type)) {
+      setFile(selected);
+      setError("");
+    } else {
+      setFile(null);
+      setError("Please select a png or jpeg image");
+    }
+
+    // data.append("file", event.target.files[0]);
+    // const token = localStorage.getItem("token");
+    // const config = {
+    //   headers: {
+    //     "content-type": "multipart/form-data",
+    //   },
+    // };
+
+    // try {
+    //   const response = await axios.post("/uploads", data, config);
+    //   console.log(response);
+    //   setItem({ ...item, image: response.data });
+    // } catch (error) {
+    //   console.log(error);
+    // }
+  };
   const priceHandler = (newItem, size) => {
     const updateSizes = item.sizes.map((item) =>
       item.size === size ? { ...item, price: newItem } : item
@@ -30,6 +62,7 @@ const AddItem = () => {
     setItem({ ...item, sizes: updateSizes });
   };
   const sumbitHandler = async (e) => {
+    console.log(item);
     item.sizes.forEach((i) => {
       i.quantity || (i.price === null && setError(true));
     });
@@ -59,6 +92,7 @@ const AddItem = () => {
         },
         config
       );
+      console.log(response);
       setConfirm(true);
       setTimeout(() => {
         setConfirm(false);
@@ -141,8 +175,22 @@ const AddItem = () => {
       </Form>
 
       <Form.Group as={Col}>
+        <div>
+          {error && <Alert variant="warning">{error}</Alert>}
+          <form action="# ">
+            <input
+              type="file"
+              name="file"
+              onChange={(event) => {
+                uploader(event);
+              }}
+            />
+            {file && (
+              <ImageComponent setItem={setItem} item={item} file={file} />
+            )}
+          </form>
+        </div>
         <Form.Label>Upload product photo</Form.Label>
-        <ImageComponent setItem={setItem} item={item} />
       </Form.Group>
 
       <Button onClick={sumbitHandler} style={{ marginTop: "20px" }}>
