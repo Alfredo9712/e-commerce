@@ -76,12 +76,12 @@ const Home = () => {
       <Row style={{ flex: ".8" }}>
         {products.map((product) => (
           <Col md={"auto"} key={product._id} className="smallRow">
-            <div key={product._id} style={{ marginTop: "30px" }}>
+            <div key={product._id} style={{ marginTop: "40px" }}>
               <Card style={{ width: "17rem", marginBottom: "20px" }}>
                 <Link to={`/product/${product.category}/${product._id}`}>
                   <Card.Img
                     variant="top"
-                    src={product.image}
+                    src={`${product.image}`}
                     style={{
                       height: "270px",
                       width: "270px",
