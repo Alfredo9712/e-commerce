@@ -1,12 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector, useDispatch } from "react-redux";
 import {
   getProducts,
   getShirts,
   getPants,
-} from '../../actions/productsActions';
-import { Link } from 'react-router-dom';
+} from "../../actions/productsActions";
+import { Link } from "react-router-dom";
 import {
   Navbar,
   Container,
@@ -15,7 +15,7 @@ import {
   Col,
   Card,
   NavDropdown,
-} from 'react-bootstrap';
+} from "react-bootstrap";
 
 const Home = () => {
   const dispatch = useDispatch();
@@ -36,27 +36,27 @@ const Home = () => {
     dispatch(getProducts());
   }, [dispatch]);
   return (
-    <div style={{ display: 'flex' }}>
-      <Row style={{ flex: '.2' }}>
+    <div style={{ display: "flex" }} className="main">
+      <Row style={{ flex: ".2" }}>
         <Navbar
-          bg='secondary'
+          bg="secondary"
           style={{
-            width: '80px',
-            height: '926px',
-            position: 'sticky',
-            top: '0',
+            width: "80px",
+            height: "926px",
+            position: "sticky",
+            top: "0",
           }}
         >
-          <Navbar.Collapse id='navbarScroll'>
+          <Navbar.Collapse id="navbarScroll">
             <Nav
-              className='me-auto'
-              className='flex-column'
+              className="me-auto"
+              className="flex-column"
               style={{
-                marginLeft: '5px',
-                marginTop: '-650px',
+                marginLeft: "5px",
+                marginTop: "-550px",
               }}
             >
-              <Nav.Link style={{ pointerEvents: 'none' }}>
+              <Nav.Link style={{ pointerEvents: "none" }}>
                 <h5>Category</h5>
               </Nav.Link>
               <Nav.Link onClick={loadShirts}>
@@ -73,26 +73,26 @@ const Home = () => {
           </Navbar.Collapse>
         </Navbar>
       </Row>
-      <Row style={{ flex: '.8' }}>
+      <Row style={{ flex: ".8" }}>
         {products.map((product) => (
-          <Col md={'auto'} key={product._id} className='smallRow'>
-            <div key={product._id}>
-              <Card style={{ width: '16rem', marginTop: '30px' }}>
+          <Col md={"auto"} key={product._id} className="smallRow">
+            <div key={product._id} style={{ marginTop: "30px" }}>
+              <Card style={{ width: "17rem", marginBottom: "20px" }}>
                 <Link to={`/product/${product.category}/${product._id}`}>
                   <Card.Img
-                    variant='top'
+                    variant="top"
                     src={product.image}
                     style={{
-                      height: '250px',
-                      width: '250px',
-                      objectFit: 'contain',
+                      height: "270px",
+                      width: "270px",
+                      objectFit: "contain",
                     }}
                   />
                 </Link>
                 <Card.Body>
                   <Card.Title>{product.product}</Card.Title>$
                   {product.sizes[0].price} - ${product.sizes[2].price}
-                </Card.Body>{' '}
+                </Card.Body>{" "}
               </Card>
             </div>
           </Col>
