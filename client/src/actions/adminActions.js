@@ -1,7 +1,7 @@
 import axios from 'axios';
 export const adminLogin = (email, password) => async (dispatch) => {
   try {
-    const response = await axios.post('http://localhost:3000/api/admin/login', {
+    const response = await axios.post('/api/admin/login', {
       email,
       password,
     });
