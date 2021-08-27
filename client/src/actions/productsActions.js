@@ -99,7 +99,8 @@ export const editProduct = (updatedProduct) => async (dispatch) => {
     { category, product, image, sizes },
     config
   );
-  console.log(updatedProduct);
+  console.log(updateProduct);
+  console.log(response);
 
   dispatch({
     type: 'EDIT_PRODUCT',
