@@ -11,7 +11,7 @@ import {
 } from "firebase/storage";
 import { firebaseApp } from "../../firebase/config";
 
-const ImageComponent = ({ setItem, file, item }) => {
+const ImageComponent = ({ setImage, file, item }) => {
   const [error, setError] = useState();
   const storage = getStorage(firebaseApp);
 
@@ -27,14 +27,13 @@ const ImageComponent = ({ setItem, file, item }) => {
       async () => {
         // Upload completed successfully, now we can get the download URL
         const url = await getDownloadURL(uploadTask.snapshot.ref);
-        setItem({ ...item, image: url });
-        console.log(item);
+        setImage(url);
+        console.log(url);
       }
     );
   }, [file]);
 
-  const test = () => alert("hi");
-  return <h4>uploaded</h4>;
+  return <h6>uploaded</h6>;
 };
 
 export default ImageComponent;

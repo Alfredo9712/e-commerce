@@ -17,7 +17,7 @@ import {
   Paper,
   makeStyles,
 } from "@material-ui/core";
-import { Button, Modal } from "react-bootstrap";
+import { Button, Modal, Spinner } from "react-bootstrap";
 
 const useStyles = makeStyles({
   table: {
@@ -72,7 +72,18 @@ const AdminUpdateItem = () => {
   return (
     <>
       {products.length > limit ? (
-        <h1>loading</h1>
+        <Spinner
+          animation="border"
+          style={{
+            display: "block",
+            position: "fixed",
+            zIndex: "1031",
+            top: "50%",
+            right: "50%",
+            marginTop: "-..px",
+            marginRight: "-..px",
+          }}
+        />
       ) : (
         <div style={{ marginTop: "30px" }}>
           <h1>Edit Products</h1>

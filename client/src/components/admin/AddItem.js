@@ -1,17 +1,26 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Row, Col, Button, Form, Dropdown, Alert } from "react-bootstrap";
 import axios from "axios";
-
+import {
+  ref,
+  getStorage,
+  uploadBytesResumable,
+  uploadBytes,
+  getDownloadURL,
+} from "firebase/storage";
+import { firebaseApp } from "../../firebase/config";
 import ImageComponent from "./ImageComponent";
 const AddItem = () => {
   const token = localStorage.getItem("token");
-  const [error, setError] = useState(false);
-  const [confirm, setConfirm] = useState(false);
-  const [image, setImage] = useState("");
 
-  const [file, setFile] = useState();
+  const [confirm, setConfirm] = useState(false);
+  let progress = 0;
+
+  const [file, setFile] = useState(null);
 
   const types = ["image/png", "image/jpeg"];
+  const [error, setError] = useState();
+  const storage = getStorage(firebaseApp);
 
   const [item, setItem] = useState({
     product: "",
@@ -23,6 +32,7 @@ const AddItem = () => {
       { size: "large", quantity: null, price: null },
     ],
   });
+
   const quantityHandler = (newItem, size) => {
     const updateSizes = item.sizes.map((item) =>
       item.size === size ? { ...item, quantity: newItem } : item
@@ -34,26 +44,41 @@ const AddItem = () => {
     if (selected && types.includes(selected.type)) {
       setFile(selected);
       setError("");
+
+      const imageRef = ref(storage, event.target.files[0].name);
+
+      const uploadTask = uploadBytesResumable(imageRef, event.target.files[0]);
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          // Observe state change events such as progress, pause, and resume
+          // Get task progress, including the number of bytes uploaded and the total number of bytes to be uploaded
+          progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+          console.log("Upload is " + progress + "% done");
+          switch (snapshot.state) {
+            case "paused":
+              console.log("Upload is paused");
+              break;
+            case "running":
+              console.log("Upload is running");
+              break;
+          }
+        },
+        (error) => {
+          // Handle unsuccessful uploads
+        },
+        () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+            progress === 100 && setItem({ ...item, image: downloadURL });
+            console.log(item);
+          });
+        }
+      );
     } else {
-      setFile(null);
       setError("Please select a png or jpeg image");
     }
-
-    // data.append("file", event.target.files[0]);
-    // const token = localStorage.getItem("token");
-    // const config = {
-    //   headers: {
-    //     "content-type": "multipart/form-data",
-    //   },
-    // };
-
-    // try {
-    //   const response = await axios.post("/uploads", data, config);
-    //   console.log(response);
-    //   setItem({ ...item, image: response.data });
-    // } catch (error) {
-    //   console.log(error);
-    // }
   };
   const priceHandler = (newItem, size) => {
     const updateSizes = item.sizes.map((item) =>
@@ -62,7 +87,6 @@ const AddItem = () => {
     setItem({ ...item, sizes: updateSizes });
   };
   const sumbitHandler = async (e) => {
-    console.log(item);
     item.sizes.forEach((i) => {
       i.quantity || (i.price === null && setError(true));
     });
@@ -110,9 +134,28 @@ const AddItem = () => {
       });
     }
   };
+  // useEffect(() => {
+  //   if (file !== null) {
+  //     const imageRef = ref(storage, file.name);
+
+  //     const uploadTask = uploadBytesResumable(imageRef, file);
+  //     uploadTask.on(
+  //       "state_changed",
+  //       (snapshot) => {},
+  //       (error) => {},
+  //       async () => {
+  //         // Upload completed successfully, now we can get the download URL
+  //         url = await getDownloadURL(uploadTask.snapshot.ref);
+
+  //         setItem({ ...item, image: url });
+  //       }
+  //     );
+  //   }
+  // }, [file]);
   return (
     <div style={{ marginTop: "30px" }} className="addProduct">
       <h1>Add Product</h1>
+
       {error && <Alert variant="warning"> Please enter all fields</Alert>}
       {confirm && <Alert variant="success"> Item Added</Alert>}
       <Form onSubmit={sumbitHandler} style={{ marginTop: "40px" }}>
@@ -147,7 +190,7 @@ const AddItem = () => {
           <Row key={index}>
             <Form.Group as={Col}>
               <Form.Label style={{ textTransform: "capitalize" }}>
-                {size.size}
+                Quantity for {size.size}
               </Form.Label>
               <Form.Control
                 type="text"
@@ -176,7 +219,6 @@ const AddItem = () => {
 
       <Form.Group as={Col}>
         <div>
-          {error && <Alert variant="warning">{error}</Alert>}
           <form action="# ">
             <input
               type="file"
@@ -185,9 +227,9 @@ const AddItem = () => {
                 uploader(event);
               }}
             />
-            {file && (
-              <ImageComponent setItem={setItem} item={item} file={file} />
-            )}
+            {/* {file && (
+              <ImageComponent setImage={setImage} item={image} file={file} />
+            )} */}
           </form>
         </div>
         <Form.Label>Upload product photo</Form.Label>
