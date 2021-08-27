@@ -1,10 +1,6 @@
 import axios from 'axios';
 const token = localStorage.getItem('token');
-const config = {
-  headers: {
-    'x-auth-token': token,
-  },
-};
+
 export const getProducts = () => async (dispatch) => {
   try {
     const res = await axios.get('/api/all-products');
@@ -94,6 +90,11 @@ export const deleteProduct = (category, id) => async (dispatch) => {
 
 export const editProduct = (updatedProduct) => async (dispatch) => {
   const { _id, category, product, image, sizes } = updatedProduct;
+  const config = {
+    headers: {
+      'x-auth-token': token,
+    },
+  };
   const response = await axios.put(
     `/api/${category}/update/${_id}`,
     { category, product, image, sizes },
