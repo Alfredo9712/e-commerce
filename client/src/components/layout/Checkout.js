@@ -349,7 +349,7 @@ function Checkout() {
                             }}
                           >
                             {" "}
-                            type 4242 for all card values
+                            Enter 4242 for all card values
                           </h6>
                         </Form.Group>
                       </Modal.Body>

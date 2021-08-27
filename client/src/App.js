@@ -19,7 +19,6 @@ import { Container } from "react-bootstrap";
 const stripePromise = loadStripe(keys[0].PUBLISHABLE_KEY);
 
 const App = () => {
-  console.log(window.location.href);
   return (
     <>
       <Router>

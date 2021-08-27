@@ -1,15 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { Form, Button, Container, Navbar, Nav } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { adminLogin } from '../../actions/adminActions';
-import { Alert } from 'react-bootstrap';
-import AdminDash from './AdminDash';
-import ErrorComponent from '../pages/ErrorComponent';
-import HomeIcon from '@material-ui/icons/Home';
-import { LinkContainer } from 'react-router-bootstrap';
+import React, { useState, useEffect } from "react";
+import { Form, Button, Container, Navbar, Nav } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { adminLogin } from "../../actions/adminActions";
+import { Alert } from "react-bootstrap";
+import AdminDash from "./AdminDash";
+import ErrorComponent from "../pages/ErrorComponent";
+import HomeIcon from "@material-ui/icons/Home";
+import { LinkContainer } from "react-router-bootstrap";
 const Admin = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   // const [error, setError] = useState('');
   const [popup, setPopup] = useState(false);
   const dispatch = useDispatch();
@@ -36,20 +36,20 @@ const Admin = () => {
         <div
           style={{
             // background: 'rgb(0,30,204)',
-            background: ' linear-gradient(210deg, #343A40 75%, #f7f0f0 25%)',
-            height: '100vh',
+            background: " linear-gradient(210deg, #343A40 75%, #f7f0f0 25%)",
+            height: "100vh",
           }}
         >
-          <Navbar bg='dark' variant='dark'>
+          <Navbar bg="dark" variant="dark">
             <Container>
-              <Nav className='me-auto'>
-                <LinkContainer to='/'>
-                  <Nav.Link style={{ display: 'flex' }}>
-                    {' '}
+              <Nav className="me-auto">
+                <LinkContainer to="/">
+                  <Nav.Link style={{ display: "flex" }}>
+                    {" "}
                     <HomeIcon
-                      style={{ fontSize: '30px', paddingBottom: '7.5px' }}
-                    />{' '}
-                    <span style={{ fontSize: '15px' }}>Home</span>
+                      style={{ fontSize: "30px", paddingBottom: "7.5px" }}
+                    />{" "}
+                    <span style={{ fontSize: "15px" }}>Home</span>
                   </Nav.Link>
                 </LinkContainer>
               </Nav>
@@ -57,46 +57,51 @@ const Admin = () => {
           </Navbar>
           <Container
             style={{
-              maxWidth: '35%',
+              maxWidth: "35%",
             }}
           >
-            <div style={{ paddingTop: '130px', color: 'white' }}>
-              <h1 style={{ color: 'white' }}>Admin login</h1>
+            <div style={{ paddingTop: "130px", color: "white" }}>
+              <h1 style={{ color: "white" }}>Admin login</h1>
 
-              {popup && <Alert variant='danger'>{error.error}</Alert>}
+              {popup && <Alert variant="danger">{error.error}</Alert>}
               <Form onSubmit={login}>
-                <Form.Group className='mb-3' controlId='formBasicEmail'>
+                <Form.Group className="mb-3" controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
                   <Form.Control
-                    type='email'
+                    type="email"
                     value={email}
-                    placeholder='Enter email'
+                    placeholder="Enter email"
                     onChange={(e) => setEmail(e.target.value)}
                   />
-                  <Form.Text className='text-muted'>
-                    Click Load Admin Data to autofill login credentials
-                  </Form.Text>
                 </Form.Group>
 
-                <Form.Group className='mb-3' controlId='formBasicPassword'>
+                <Form.Group className="mb-3" controlId="formBasicPassword">
                   <Form.Label>Password</Form.Label>
                   <Form.Control
-                    type='password'
+                    type="password"
                     value={password}
-                    placeholder='Password'
+                    placeholder="Password"
                     onChange={(e) => setPassword(e.target.value)}
                   />
                 </Form.Group>
                 <Button
-                  variant='primary'
+                  variant="primary"
+                  style={{ display: "block", marginTop: "16px" }}
                   onClick={() => {
-                    setEmail('ecommerce.react@gmail.com');
-                    setPassword('CSUSB2020/2021');
+                    setEmail("ecommerce.react@gmail.com");
+                    setPassword("CSUSB2020/2021");
                   }}
                 >
                   Load Admin data
                 </Button>
-                <Button variant='primary' type='submit'>
+                <Form.Text className="text-muted">
+                  Click Load Admin Data to autofill login credentials
+                </Form.Text>
+                <Button
+                  variant="primary"
+                  type="submit"
+                  style={{ marginTop: "10px" }}
+                >
                   Sign In
                 </Button>
               </Form>
