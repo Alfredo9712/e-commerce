@@ -7,7 +7,7 @@ const config = {
 };
 export const getProducts = () => async (dispatch) => {
   try {
-    const res = await axios.get('http://localhost:5000/api/all-products');
+    const res = await axios.get('/api/all-products');
     const data = [...res.data];
 
     dispatch({
@@ -19,7 +19,7 @@ export const getProducts = () => async (dispatch) => {
 
 export const getShirts = () => async (dispatch) => {
   try {
-    const res = await axios.get('http://localhost:5000/api/shirts');
+    const res = await axios.get('/api/shirts');
     const data = [...res.data];
 
     dispatch({
@@ -30,7 +30,7 @@ export const getShirts = () => async (dispatch) => {
 };
 export const getPants = () => async (dispatch) => {
   try {
-    const res = await axios.get('http://localhost:5000/api/pants');
+    const res = await axios.get('/api/pants');
     const data = [...res.data];
 
     dispatch({
@@ -70,11 +70,8 @@ export const updateProducts = (cart) => async (dispatch) => {
     // cartItem.originalQuantity - cartItem.selectedQuantity,
     // const test = await axios.get('http://localhost:5000/api/test');
 
-    await axios.put(
-      `http://localhost:5000/api/${cartItem.category}/${cartItem.id}`,
-      { sizes }
-    );
-    const res = await axios.get('http://localhost:5000/api/all-products');
+    await axios.put(`/api/${cartItem.category}/${cartItem.id}`, { sizes });
+    const res = await axios.get('/api/all-products');
   });
 };
 
