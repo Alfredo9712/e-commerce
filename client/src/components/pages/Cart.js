@@ -76,7 +76,10 @@ const Cart = () => {
 
           <div>
             {cartItems.map((cartItem) => (
-              <Card style={{ width: "18rem" }} key={cartItem.id}>
+              <Card
+                style={{ width: "18rem", marginTop: "15px" }}
+                key={cartItem.id}
+              >
                 <Card.Body style={{ display: "flex" }}>
                   <Card.Img variant="top" src={cartItem.image} />
                   <Card.Body style={{ marginLeft: ".5em" }}>

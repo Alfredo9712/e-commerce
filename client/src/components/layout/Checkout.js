@@ -177,7 +177,7 @@ function Checkout() {
                 dialogClassName="modal-90w"
                 aria-labelledby="example-custom-modal-styling-title"
               >
-                <Form onSumbit={(e) => submitHandler(e)}>
+                <Form onSumbit={(e) => submitHandler(e)} autocomplete="off">
                   <Modal.Header closeButton>
                     <Modal.Title id="example-custom-modal-styling-title">
                       Checkout
@@ -222,7 +222,7 @@ function Checkout() {
                                 })
                               }
                               value={billingInfo.phone}
-                              type="Phone"
+                              type="text"
                               placeholder="Phone"
                               style={{ width: "250px" }}
                             />
@@ -231,7 +231,7 @@ function Checkout() {
                       </Modal.Body>
                       <Modal.Body>
                         <h3>Shipping Address</h3>
-                        <Form.Group as={Row} controlId="formHorizontalEmail">
+                        <Form.Group as={Row}>
                           <Form.Label column sm={2}>
                             First Name:
                           </Form.Label>
@@ -244,7 +244,7 @@ function Checkout() {
                                 })
                               }
                               value={billingInfo.name}
-                              type="input"
+                              type="text"
                               placeholder="Name"
                               style={{ width: "250px" }}
                             />
@@ -262,7 +262,7 @@ function Checkout() {
                                 })
                               }
                               value={billingInfo.address.line1}
-                              type="input"
+                              type="text"
                               placeholder="Address"
                               style={{ width: "250px" }}
                             />
@@ -280,7 +280,7 @@ function Checkout() {
                                   address: { city: e.target.value },
                                 })
                               }
-                              type="input"
+                              type="text"
                               placeholder="City"
                               style={{ width: "250px" }}
                             />
@@ -298,7 +298,7 @@ function Checkout() {
                                   address: { state: e.target.value },
                                 })
                               }
-                              type="input"
+                              type="text"
                               placeholder="State"
                               style={{ width: "250px" }}
                             />
@@ -315,7 +315,7 @@ function Checkout() {
                                   address: { postal_code: e.target.value },
                                 })
                               }
-                              type="input"
+                              type="text"
                               placeholder="Zip Code"
                               style={{ width: "250px" }}
                             />
@@ -388,16 +388,15 @@ function Checkout() {
                             0
                           )}
                         </h4>
-
+                        <Button variant="dark" onClick={() => mockHandler()}>
+                          Load Mock Data
+                        </Button>
                         <Button
                           variant="primary"
                           onClick={submitHandler}
                           disabled={isProcessing}
                         >
                           {isProcessing ? "Processing.." : "checkout"}
-                        </Button>
-                        <Button variant="dark" onClick={() => mockHandler()}>
-                          Load Data
                         </Button>
                       </Modal.Body>
                     </Col>
