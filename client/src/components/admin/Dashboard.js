@@ -149,7 +149,8 @@ const Dashboard = () => {
               <div
                 style={{
                   background:
-                    "linear-gradient(45deg, rgba(0,200,255,1) 0%, rgba(25,141,255,1) 78%)",
+                    "linear-gradient(45deg, rgb(20,120,89) 0%,  rgba(27,188,138,1)",
+
                   boxShadow:
                     "0 1px 3px rgba(0, 0, 0, 0.30), 0 1px 2px rgba(0, 0, 0, 0.24)",
                   borderRadius: "15px",

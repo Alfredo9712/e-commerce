@@ -55,9 +55,6 @@ const SearchedProductPage = () => {
         setError(false);
       }, 2000);
       return;
-    }
-    if (search.length === 0) {
-      alert("type in something bru");
     } else {
       getClientProducts();
 
