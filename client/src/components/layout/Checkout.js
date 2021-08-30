@@ -177,7 +177,7 @@ function Checkout() {
                 dialogClassName="modal-90w"
                 aria-labelledby="example-custom-modal-styling-title"
               >
-                <Form onSumbit={(e) => submitHandler(e)} autocomplete="off">
+                <Form onSumbit={(e) => submitHandler(e)}>
                   <Modal.Header closeButton>
                     <Modal.Title id="example-custom-modal-styling-title">
                       Checkout
