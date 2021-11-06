@@ -20,8 +20,6 @@ router.post("/order", async (req, res) => {
 
 router.put("/order/:id", async (req, res) => {
   const _id = req.params.id;
-  // const key = req.params.key;
-  // key !== process.env.KEY && res.json({ msg: "Not authorized" }).status(400);
   const { complete } = req.body;
   const updatedOrder = {
     complete,
