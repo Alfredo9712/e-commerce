@@ -42,7 +42,7 @@ const getDailyPercentages = (month, year, orders) => {
 
   const filteredMonth = orders.filter(
     (i) =>
-      i.createdAt.substring(6, 7) == month &&
+      i.createdAt.substring(5, 7) == month &&
       i.createdAt.substring(0, 4) == year
   );
 
@@ -76,7 +76,7 @@ const getDailyStats = async (month, year) => {
   const response = await axios.get("/api/order");
   const filteredMonth = response.data.filter(
     (i) =>
-      i.createdAt.substring(6, 7) == month &&
+      i.createdAt.substring(5, 7) == month &&
       i.createdAt.substring(0, 4) == year
   );
 
@@ -111,12 +111,13 @@ export const getDailyOrders =
             .filter(
               (i) =>
                 i.createdAt.substring(8, 10) == x &&
-                i.createdAt.substring(6, 7) == selectedMonth &&
+                i.createdAt.substring(5, 7) == selectedMonth &&
                 i.createdAt.substring(0, 4) == selectedYear
             )
             .reduce((accu, cur) => accu + cur.amount, 0),
         });
       }
+
       const { shirts, pants, earnings, shirtPrice, pantPrice } =
         getDailyPercentages(selectedMonth, selectedYear, request);
       const { totalOrders, pendingOrders, completeOrders } =
@@ -219,12 +220,13 @@ export const getMonthlyOrders = (selectedYear) => async (dispatch) => {
         y: request
           .filter(
             (i) =>
-              i.createdAt.substring(6, 7) == index + 1 &&
+              i.createdAt.substring(5, 7) == index + 1 &&
               i.createdAt.substring(0, 4) == selectedYear
           )
           .reduce((accu, cur) => accu + cur.amount, 0),
       });
     });
+    console.log(request[27].createdAt.substring(5, 7));
     const { shirts, pants, earnings, shirtPrice, pantPrice } =
       getMonthlyPercentages(selectedYear, request);
     const { totalOrders, pendingOrders, completeOrders } =
